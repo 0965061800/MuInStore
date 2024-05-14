@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using MuInStoreAPI.Data;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.Service;
+using MuInStoreAPI.UnitOfWork;
+using System.Text.Json.Serialization;
 
 namespace MuInStoreAPI
 {
@@ -17,7 +19,8 @@ namespace MuInStoreAPI
             var builder = WebApplication.CreateBuilder(args);
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -91,6 +94,7 @@ namespace MuInStoreAPI
             });
 
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MuInStoreAPI.Models
+namespace MuInShared.Product
 {
-    public class Product
+    public class ProductDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;
@@ -17,14 +17,8 @@ namespace MuInStoreAPI.Models
         public string? specifications { get; set; }
         public string Alias { get; set; } = string.Empty;
         public bool Active { get; set; } = true;
-        public DateTime CreatAt { get; set; } = DateTime.Now;
-        public int? FeatureId { get; set; }
-        public int? BrandId { get; set; }
-        public int? CategoryId { get; set; }
-        public Feature? Feature { get; set; }
-        public Category? Category { get; set; }
-        public Brand? Brand { get; set; }
-        public List<ProductSku>? ProductSkus { get; set; }
-
+        public string? FeatureName { get; set; }
+        public string? BrandName { get; set; }
+        public string? CategoryName { get; set; }
     }
 }

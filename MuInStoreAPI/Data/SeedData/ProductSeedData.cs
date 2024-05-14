@@ -11,6 +11,7 @@ namespace MusInStore.Data.SeedData
                 {
                     ProductId = 1,
                     ProductName = "Grand Piano Yamaha C1 PE - C Series",
+                    ProductPrice = 12000000,
                     ProductCode = "C1PE-C",
                     Active = true,
                     Alias = "yamahaC1Pe",
@@ -26,6 +27,7 @@ namespace MusInStore.Data.SeedData
                 {
                     ProductId = 2,
                     ProductName = "CASIO CT-S300",
+                    ProductPrice = 18000000,
                     ProductCode = "CT300",
                     Active = true,
                     Alias = "CT300",
@@ -42,6 +44,7 @@ namespace MusInStore.Data.SeedData
                 {
                     ProductId = 3,
                     ProductName = "CASIO CDP-S160BK",
+                    ProductPrice = 8200000,
                     ProductCode = "CDP-S160BK",
                     Active = true,
                     Alias = "CT300",
@@ -58,6 +61,7 @@ namespace MusInStore.Data.SeedData
                 {
                     ProductId = 4,
                     ProductName = "Roland RP-501R",
+                    ProductPrice = 82000000,
                     ProductCode = "RP-501R-CB",
                     Active = true,
                     Alias = "digital-piano-rp501r",

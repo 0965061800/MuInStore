@@ -1,12 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MuInStoreAPI.Models
+namespace MuInShared.Product
 {
-    public class Product
+    public class RequestProductDto
     {
-        public int ProductId { get; set; }
+        [Required]
+        [StringLength(120)]
         public string ProductName { get; set; } = string.Empty;
+        [Required]
+        [StringLength(50)]
         public string ProductCode { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Bạn cần nhập giá tiền")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal ProductPrice { get; set; }
         public string? Description { get; set; }
@@ -15,16 +20,12 @@ namespace MuInStoreAPI.Models
         public decimal Sale { get; set; }
         public string? VideoLink { get; set; }
         public string? specifications { get; set; }
+        [Required(ErrorMessage = "Chưa nhập biệt hiệu")]
+        [StringLength(120)]
         public string Alias { get; set; } = string.Empty;
         public bool Active { get; set; } = true;
-        public DateTime CreatAt { get; set; } = DateTime.Now;
         public int? FeatureId { get; set; }
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
-        public Feature? Feature { get; set; }
-        public Category? Category { get; set; }
-        public Brand? Brand { get; set; }
-        public List<ProductSku>? ProductSkus { get; set; }
-
     }
 }
