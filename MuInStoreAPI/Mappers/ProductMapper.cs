@@ -41,5 +41,22 @@ namespace MuInStoreAPI.Mappers
                 CategoryId = requestProductDto.CategoryId,
             };
         }
+
+        public static Product UpdateToProduct(this UpdateProductDto updateProductDto, Product product)
+        {
+            product.ProductName = updateProductDto.ProductName;
+            product.ProductCode = updateProductDto.ProductCode;
+            product.ProductPrice = updateProductDto.ProductPrice;
+            product.Description = updateProductDto.Description;
+            product.BestSeller = updateProductDto.BestSeller;
+            product.Sale = updateProductDto.Sale;
+            product.VideoLink = updateProductDto.VideoLink;
+            product.specifications = updateProductDto.specifications;
+            product.Alias = updateProductDto.Alias;
+            product.FeatureId = updateProductDto.FeatureId;
+            product.BrandId = updateProductDto.BrandId;
+            product.CategoryId = updateProductDto.CategoryId;
+            return product;
+        }
     }
 }

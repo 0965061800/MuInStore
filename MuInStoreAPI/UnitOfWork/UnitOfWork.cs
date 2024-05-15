@@ -11,6 +11,8 @@ namespace MuInStoreAPI.UnitOfWork
         public ICategoryRepository CategoryRepository { get; private set; }
         public IFeatureRepository FeatureRepository { get; private set; }
         public IBrandRepository BrandRepository { get; private set; }
+        public ICommentRepository CommentRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -18,6 +20,7 @@ namespace MuInStoreAPI.UnitOfWork
             CategoryRepository = new CategoryRepository(_context);
             FeatureRepository = new FeatureRepository(_context);
             BrandRepository = new BrandRepository(_context);
+            CommentRepository = new CommentRepository(_context);
         }
         public async Task Save()
         {

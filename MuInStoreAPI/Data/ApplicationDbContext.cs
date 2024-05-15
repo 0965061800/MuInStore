@@ -38,10 +38,12 @@ namespace MuInStoreAPI.Data
             modelBuilder.SeedLocalData();
             modelBuilder.SeedPayStatusData();
             modelBuilder.Entity<UserLocation>(x => x.HasKey(p => new { p.AppUserId, p.LocationId }));
+
             modelBuilder.Entity<UserLocation>().HasOne(u => u.AppUser).WithMany(u => u.UserLocations).HasForeignKey(p => p.AppUserId);
             modelBuilder.Entity<UserLocation>().HasOne(u => u.Location).WithMany(u => u.userLocations).HasForeignKey(p => p.LocationId);
 
             modelBuilder.Entity<Order>().HasOne(u => u.AppUser).WithMany(u => u.Orders).HasForeignKey(p => p.AppUserId);
+            modelBuilder.Entity<Category>().HasOne(c => c.Parent).WithMany(c => c.Subcategories).HasForeignKey(c => c.ParentCatId).OnDelete(DeleteBehavior.NoAction);
 
             List<IdentityRole> roles = new List<IdentityRole>
             {

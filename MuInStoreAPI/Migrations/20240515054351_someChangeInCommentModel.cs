@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MuInStoreAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class addListProductSkuInProduct : Migration
+    public partial class someChangeInCommentModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,20 +16,24 @@ namespace MuInStoreAPI.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "3bcdc33f-8b9d-4aee-a302-b3b4c6439bd7");
+                keyValue: "893a948f-bc78-472a-b7a1-89fff0adeacb");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "de10f6b9-ee82-48b7-939d-a622d9a4c9b1");
+                keyValue: "982f17ab-16c7-4e5a-a8d5-c86101bc3aa4");
+
+            migrationBuilder.DropColumn(
+                name: "CustomerId",
+                table: "Comments");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "259d7bc4-396b-48b9-a5c8-87301c570028", null, "User", "USER" },
-                    { "71f1c703-517f-4f8e-afe3-fd996c6aad93", null, "Admin", "ADMIN" }
+                    { "4d18a50d-0524-466a-89c7-6f429b4ae1ac", null, "User", "USER" },
+                    { "c16c96c6-00ed-4139-bbfb-2c1b187be118", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.UpdateData(
@@ -37,28 +41,28 @@ namespace MuInStoreAPI.Migrations
                 keyColumn: "ProductId",
                 keyValue: 1,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6699));
+                value: new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6455));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 2,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6722));
+                value: new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6473));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 3,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6728));
+                value: new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6478));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 4,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6732));
+                value: new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6481));
         }
 
         /// <inheritdoc />
@@ -67,20 +71,27 @@ namespace MuInStoreAPI.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "259d7bc4-396b-48b9-a5c8-87301c570028");
+                keyValue: "4d18a50d-0524-466a-89c7-6f429b4ae1ac");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "71f1c703-517f-4f8e-afe3-fd996c6aad93");
+                keyValue: "c16c96c6-00ed-4139-bbfb-2c1b187be118");
+
+            migrationBuilder.AddColumn<int>(
+                name: "CustomerId",
+                table: "Comments",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3bcdc33f-8b9d-4aee-a302-b3b4c6439bd7", null, "User", "USER" },
-                    { "de10f6b9-ee82-48b7-939d-a622d9a4c9b1", null, "Admin", "ADMIN" }
+                    { "893a948f-bc78-472a-b7a1-89fff0adeacb", null, "User", "USER" },
+                    { "982f17ab-16c7-4e5a-a8d5-c86101bc3aa4", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.UpdateData(
@@ -88,28 +99,28 @@ namespace MuInStoreAPI.Migrations
                 keyColumn: "ProductId",
                 keyValue: 1,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 0, 31, 195, DateTimeKind.Local).AddTicks(4351));
+                value: new DateTime(2024, 5, 15, 10, 41, 43, 520, DateTimeKind.Local).AddTicks(2771));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 2,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 0, 31, 195, DateTimeKind.Local).AddTicks(4369));
+                value: new DateTime(2024, 5, 15, 10, 41, 43, 520, DateTimeKind.Local).AddTicks(2799));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 3,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 0, 31, 195, DateTimeKind.Local).AddTicks(4374));
+                value: new DateTime(2024, 5, 15, 10, 41, 43, 520, DateTimeKind.Local).AddTicks(2803));
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "ProductId",
                 keyValue: 4,
                 column: "CreatAt",
-                value: new DateTime(2024, 5, 14, 11, 0, 31, 195, DateTimeKind.Local).AddTicks(4377));
+                value: new DateTime(2024, 5, 15, 10, 41, 43, 520, DateTimeKind.Local).AddTicks(2806));
         }
     }
 }

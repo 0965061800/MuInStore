@@ -51,13 +51,13 @@ namespace MuInStoreAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "71f1c703-517f-4f8e-afe3-fd996c6aad93",
+                            Id = "c16c96c6-00ed-4139-bbfb-2c1b187be118",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "259d7bc4-396b-48b9-a5c8-87301c570028",
+                            Id = "4d18a50d-0524-466a-89c7-6f429b4ae1ac",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -325,6 +325,8 @@ namespace MuInStoreAPI.Migrations
 
                     b.HasKey("CatId");
 
+                    b.HasIndex("ParentCatId");
+
                     b.ToTable("Categories");
 
                     b.HasData(
@@ -417,9 +419,6 @@ namespace MuInStoreAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -842,7 +841,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 2,
                             CategoryId = 1,
-                            CreatAt = new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6699),
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6455),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 3,
                             ProductCode = "C1PE-C",
@@ -860,7 +859,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6722),
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6473),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 1,
                             ProductCode = "CT300",
@@ -878,7 +877,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6728),
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6478),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 2,
                             ProductCode = "CDP-S160BK",
@@ -896,7 +895,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = true,
                             BrandId = 3,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 14, 11, 21, 51, 47, DateTimeKind.Local).AddTicks(6732),
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6481),
                             Description = "- Sản phẩm bao gồm: Đàn + Ghế Roland RAM8065 | - Động cơ SuperNATURAL Piano cho âm thanh phong phú & chân thực | - Bàn phím PHA-4 Standard có tính năng cảm biến với độ phân giải cao | - Pedal Progressive Damper Action với phản ứng liên tục | - Hiệu ứng Headphones 3D Ambience. Kết nối với các ứng dụng thú vị | - Tính năng nhịp điệu phức tạp với điệu đệm thông minh; | - Đàn có dạng tủ đứng tiết kiệm không gian",
                             FeatureId = 1,
                             ProductCode = "RP-501R-CB",
@@ -1120,6 +1119,16 @@ namespace MuInStoreAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MuInStoreAPI.Models.Category", b =>
+                {
+                    b.HasOne("MuInStoreAPI.Models.Category", "Parent")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("ParentCatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("MuInStoreAPI.Models.Comment", b =>
                 {
                     b.HasOne("MuInStoreAPI.Models.AppUser", "AppUser")
@@ -1286,6 +1295,8 @@ namespace MuInStoreAPI.Migrations
             modelBuilder.Entity("MuInStoreAPI.Models.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Subcategories");
                 });
 
             modelBuilder.Entity("MuInStoreAPI.Models.Color", b =>

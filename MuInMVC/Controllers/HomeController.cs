@@ -15,6 +15,7 @@ namespace MuInMVC.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 

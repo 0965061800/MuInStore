@@ -8,6 +8,7 @@ namespace MuInStoreAPI.UnitOfWork
         ICategoryRepository CategoryRepository { get; }
         IFeatureRepository FeatureRepository { get; }
         IBrandRepository BrandRepository { get; }
+        ICommentRepository CommentRepository { get; }
 
         Task Save();
     }

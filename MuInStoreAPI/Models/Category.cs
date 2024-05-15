@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MuInStoreAPI.Models
 {
@@ -10,6 +11,9 @@ namespace MuInStoreAPI.Models
         public string Alias { get; set; } = string.Empty;
         public string? CatImage { get; set; }
         public int? ParentCatId { get; set; }
+        [NotMapped]
+        public Category? Parent { get; set; }
+        public List<Category> Subcategories { get; set; } = new List<Category>();
         public List<Product> Products { get; set; } = new List<Product>();
     }
 }

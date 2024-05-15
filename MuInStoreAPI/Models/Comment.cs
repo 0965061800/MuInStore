@@ -7,10 +7,9 @@
         public string Content { get; set; } = string.Empty;
         public int Rate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public int CustomerId { get; set; }
         public int ProductId { get; set; }
         public string AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
-        public Product Product { get; set; }
+        public AppUser? AppUser { get; set; }
+        public Product? Product { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using MuInStoreAPI.Data;
 namespace MuInStoreAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513095114_AddModelAndSeedData")]
-    partial class AddModelAndSeedData
+    [Migration("20240515054351_someChangeInCommentModel")]
+    partial class someChangeInCommentModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace MuInStoreAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac3c9cf4-c0e6-4c50-bf14-07bc6e5ce6df",
+                            Id = "c16c96c6-00ed-4139-bbfb-2c1b187be118",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c185f673-0fe5-4698-ac39-a29868fe0b4e",
+                            Id = "4d18a50d-0524-466a-89c7-6f429b4ae1ac",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -328,6 +328,8 @@ namespace MuInStoreAPI.Migrations
 
                     b.HasKey("CatId");
 
+                    b.HasIndex("ParentCatId");
+
                     b.ToTable("Categories");
 
                     b.HasData(
@@ -420,9 +422,6 @@ namespace MuInStoreAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -797,6 +796,9 @@ namespace MuInStoreAPI.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -810,6 +812,9 @@ namespace MuInStoreAPI.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Sale")
                         .HasColumnType("decimal(2,2)");
@@ -839,10 +844,12 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 2,
                             CategoryId = 1,
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6455),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 3,
                             ProductCode = "C1PE-C",
                             ProductName = "Grand Piano Yamaha C1 PE - C Series",
+                            ProductPrice = 12000000m,
                             Sale = 0m,
                             VideoLink = "",
                             specifications = "Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\")"
@@ -855,10 +862,12 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6473),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 1,
                             ProductCode = "CT300",
                             ProductName = "CASIO CT-S300",
+                            ProductPrice = 18000000m,
                             Sale = 0.3m,
                             VideoLink = "",
                             specifications = "Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\")"
@@ -871,10 +880,12 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6478),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 2,
                             ProductCode = "CDP-S160BK",
                             ProductName = "CASIO CDP-S160BK",
+                            ProductPrice = 8200000m,
                             Sale = 0.3m,
                             VideoLink = "",
                             specifications = "Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\")"
@@ -887,10 +898,12 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = true,
                             BrandId = 3,
                             CategoryId = 4,
+                            CreatAt = new DateTime(2024, 5, 15, 12, 43, 50, 541, DateTimeKind.Local).AddTicks(6481),
                             Description = "- Sản phẩm bao gồm: Đàn + Ghế Roland RAM8065 | - Động cơ SuperNATURAL Piano cho âm thanh phong phú & chân thực | - Bàn phím PHA-4 Standard có tính năng cảm biến với độ phân giải cao | - Pedal Progressive Damper Action với phản ứng liên tục | - Hiệu ứng Headphones 3D Ambience. Kết nối với các ứng dụng thú vị | - Tính năng nhịp điệu phức tạp với điệu đệm thông minh; | - Đàn có dạng tủ đứng tiết kiệm không gian",
                             FeatureId = 1,
                             ProductCode = "RP-501R-CB",
                             ProductName = "Roland RP-501R",
+                            ProductPrice = 82000000m,
                             Sale = 0.3m,
                             VideoLink = "",
                             specifications = "Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\")"
@@ -1109,6 +1122,16 @@ namespace MuInStoreAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MuInStoreAPI.Models.Category", b =>
+                {
+                    b.HasOne("MuInStoreAPI.Models.Category", "Parent")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("ParentCatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("MuInStoreAPI.Models.Comment", b =>
                 {
                     b.HasOne("MuInStoreAPI.Models.AppUser", "AppUser")
@@ -1229,7 +1252,7 @@ namespace MuInStoreAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("MuInStoreAPI.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductSkus")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1275,6 +1298,8 @@ namespace MuInStoreAPI.Migrations
             modelBuilder.Entity("MuInStoreAPI.Models.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Subcategories");
                 });
 
             modelBuilder.Entity("MuInStoreAPI.Models.Color", b =>
@@ -1295,6 +1320,11 @@ namespace MuInStoreAPI.Migrations
             modelBuilder.Entity("MuInStoreAPI.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("MuInStoreAPI.Models.Product", b =>
+                {
+                    b.Navigation("ProductSkus");
                 });
 
             modelBuilder.Entity("MuInStoreAPI.Models.ProductSku", b =>

@@ -69,34 +69,20 @@ namespace MuInStoreAPI.Controllers
                 }
 
                 Product newProduct = requestProductDto.ToProduct();
-                bool CheckCategory;
                 if (newProduct.CategoryId != null)
                 {
-                    CheckCategory = await _uow.CategoryRepository.CheckCategoryId((int)newProduct.CategoryId);
+                    bool CheckCategory = await _uow.CategoryRepository.CheckCategoryId((int)newProduct.CategoryId);
+                    if (!CheckCategory) return BadRequest("No Categroy Found");
                 }
-                else
-                {
-                    return BadRequest("Không có category này");
-                }
-
-                bool CheckBrand;
                 if (newProduct.BrandId != null)
                 {
-                    CheckCategory = await _uow.BrandRepository.CheckBrandId((int)newProduct.BrandId);
+                    bool CheckBrand = await _uow.BrandRepository.CheckBrandId((int)newProduct.BrandId);
+                    if (!CheckBrand) return BadRequest("No Brand Found");
                 }
-                else
-                {
-                    return BadRequest("Không có brand này");
-                }
-
-                bool CheckFeature;
                 if (newProduct.FeatureId != null)
                 {
-                    CheckCategory = await _uow.FeatureRepository.CheckFeatureId((int)newProduct.FeatureId);
-                }
-                else
-                {
-                    return BadRequest("Không có thuộc tính này");
+                    bool CheckFeature = await _uow.FeatureRepository.CheckFeatureId((int)newProduct.FeatureId);
+                    if (!CheckFeature) return BadRequest("No Feature Found");
                 }
 
                 await _uow.ProductRepository.Create(newProduct);
@@ -108,7 +94,62 @@ namespace MuInStoreAPI.Controllers
                 return StatusCode(500, ex);
             }
         }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDto updateProductDto)
+        {
+            try
+            {
+                var oldProduct = await _uow.ProductRepository.GetById(id);
 
+                if (oldProduct == null)
+                {
+                    return BadRequest("No Product Found");
+                }
+                if (!ModelState.IsValid)
+                {
+                    BadRequest(ModelState);
+                }
+
+                if (updateProductDto.CategoryId != null)
+                {
+                    bool CheckCategory = await _uow.CategoryRepository.CheckCategoryId((int)updateProductDto.CategoryId);
+                    if (!CheckCategory) return BadRequest("No Categroy Found");
+                }
+                if (updateProductDto.BrandId != null)
+                {
+                    bool CheckBrand = await _uow.BrandRepository.CheckBrandId((int)updateProductDto.BrandId);
+                    if (!CheckBrand) return BadRequest("No Brand Found");
+                }
+                if (updateProductDto.FeatureId != null)
+                {
+                    bool CheckFeature = await _uow.FeatureRepository.CheckFeatureId((int)updateProductDto.FeatureId);
+                    if (!CheckFeature) return BadRequest("No Feature Found");
+                };
+
+                await _uow.CategoryRepository.GetById(oldProduct.CategoryId);
+                await _uow.BrandRepository.GetById(oldProduct.BrandId);
+                await _uow.FeatureRepository.GetById(oldProduct.FeatureId);
+
+                Product newProduct = updateProductDto.UpdateToProduct(oldProduct);
+                await _uow.ProductRepository.Update(id, newProduct);
+                await _uow.Save();
+                return Ok(newProduct.ToProductDto());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var productDelete = _uow.ProductRepository.Delete(id);
+            if (productDelete == null)
+            {
+                NotFound();
+            }
+            return NoContent();
+        }
 
     }
 }
