@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MuInShared.Comment;
+using MuInShared.ProductSku;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MuInShared.Product
 {
-	public class ProductDto
+	public class ProductFullDto
 	{
 		public int ProductId { get; set; }
 		public string ProductName { get; set; } = string.Empty;
@@ -18,8 +20,14 @@ namespace MuInShared.Product
 		public string Alias { get; set; } = string.Empty;
 		public bool Active { get; set; } = true;
 		public string ProductImage { get; set; } = string.Empty;
+		public int? FeatureId { get; set; }
 		public string? FeatureName { get; set; }
+		public int? BrandId { get; set; }
 		public string? BrandName { get; set; }
+		public int? CategoryId { get; set; }
 		public string? CategoryName { get; set; }
+		public List<ProductSkuDto>? ProductSkuDtos { get; set; }
+		public List<CommentDto>? CommentDtos { get; set; }
+		public decimal averageRating { get; set; }
 	}
 }

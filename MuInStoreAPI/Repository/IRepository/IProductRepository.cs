@@ -2,8 +2,9 @@
 
 namespace MuInStoreAPI.Repository.IRepository
 {
-    public interface IProductRepository : IGenericRepository<Product>
-    {
+	public interface IProductRepository : IGenericRepository<Product>
+	{
+		Task<Product?> GetProductByIdAsync(int id);
 
-    }
+	}
 }

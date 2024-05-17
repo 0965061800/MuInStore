@@ -35,7 +35,7 @@ namespace MuInMVC.Controllers
 			ViewData["Categories"] = categoryList;
 			return View(productList.Data);
 		}
-		public IActionResult CategoryProductList(int id)
+		public IActionResult Category(int id)
 		{
 			CategoryFullDto categoryFullDto = new CategoryFullDto();
 			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category/" + id).Result;
@@ -47,6 +47,19 @@ namespace MuInMVC.Controllers
 			ViewBag.CatName = categoryFullDto.CatName;
 			ViewData["Categories"] = categoryFullDto.SubCategories;
 			return View(categoryFullDto.AllProducts);
+		}
+
+		public IActionResult ProductDetail(int id)
+		{
+			ProductFullDto productFullDto = new ProductFullDto();
+			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product/" + id).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				string data = response.Content.ReadAsStringAsync().Result;
+				productFullDto = JsonConvert.DeserializeObject<ProductFullDto>(data);
+			}
+			ViewBag.ProductName = productFullDto.ProductName;
+			return View(productFullDto);
 		}
 	}
 }

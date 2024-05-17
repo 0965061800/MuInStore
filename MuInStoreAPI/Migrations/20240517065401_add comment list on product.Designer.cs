@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuInStoreAPI.Data;
 
@@ -11,9 +12,11 @@ using MuInStoreAPI.Data;
 namespace MuInStoreAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240517065401_add comment list on product")]
+    partial class addcommentlistonproduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace MuInStoreAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cee4214-5371-40a5-9b5f-bc9e1769a2c1",
+                            Id = "5b63f565-e507-4352-b28f-9d81f8b29e60",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7970d324-59ae-4803-9c45-e8f94cd1cc9d",
+                            Id = "e7edce45-80c8-4420-a660-6a069189dfdb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -805,10 +808,6 @@ namespace MuInStoreAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProductImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -844,11 +843,10 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 2,
                             CategoryId = 1,
-                            CreatAt = new DateTime(2024, 5, 17, 17, 31, 40, 129, DateTimeKind.Local).AddTicks(8606),
+                            CreatAt = new DateTime(2024, 5, 17, 13, 54, 0, 568, DateTimeKind.Local).AddTicks(3390),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 3,
                             ProductCode = "C1PE-C",
-                            ProductImage = "",
                             ProductName = "Grand Piano Yamaha C1 PE - C Series",
                             ProductPrice = 12000000m,
                             Sale = 0m,
@@ -863,11 +861,10 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 17, 17, 31, 40, 129, DateTimeKind.Local).AddTicks(8634),
+                            CreatAt = new DateTime(2024, 5, 17, 13, 54, 0, 568, DateTimeKind.Local).AddTicks(3420),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 1,
                             ProductCode = "CT300",
-                            ProductImage = "",
                             ProductName = "CASIO CT-S300",
                             ProductPrice = 18000000m,
                             Sale = 0.3m,
@@ -882,11 +879,10 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 17, 17, 31, 40, 129, DateTimeKind.Local).AddTicks(8641),
+                            CreatAt = new DateTime(2024, 5, 17, 13, 54, 0, 568, DateTimeKind.Local).AddTicks(3474),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 2,
                             ProductCode = "CDP-S160BK",
-                            ProductImage = "",
                             ProductName = "CASIO CDP-S160BK",
                             ProductPrice = 8200000m,
                             Sale = 0.3m,
@@ -901,11 +897,10 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = true,
                             BrandId = 3,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 17, 17, 31, 40, 129, DateTimeKind.Local).AddTicks(8645),
+                            CreatAt = new DateTime(2024, 5, 17, 13, 54, 0, 568, DateTimeKind.Local).AddTicks(3480),
                             Description = "- Sản phẩm bao gồm: Đàn + Ghế Roland RAM8065 | - Động cơ SuperNATURAL Piano cho âm thanh phong phú & chân thực | - Bàn phím PHA-4 Standard có tính năng cảm biến với độ phân giải cao | - Pedal Progressive Damper Action với phản ứng liên tục | - Hiệu ứng Headphones 3D Ambience. Kết nối với các ứng dụng thú vị | - Tính năng nhịp điệu phức tạp với điệu đệm thông minh; | - Đàn có dạng tủ đứng tiết kiệm không gian",
                             FeatureId = 1,
                             ProductCode = "RP-501R-CB",
-                            ProductImage = "",
                             ProductName = "Roland RP-501R",
                             ProductPrice = 82000000m,
                             Sale = 0.3m,

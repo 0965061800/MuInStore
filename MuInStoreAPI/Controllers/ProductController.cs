@@ -56,15 +56,12 @@ namespace MuInStoreAPI.Controllers
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<Product>> GetById(int id)
 		{
-			var product = await _uow.ProductRepository.GetById(id);
+			var product = await _uow.ProductRepository.GetProductByIdAsync(id);
 			if (product == null)
 			{
 				return NotFound("");
 			}
-			await _uow.CategoryRepository.GetById(product.CategoryId);
-			await _uow.BrandRepository.GetById(product.BrandId);
-			await _uow.FeatureRepository.GetById(product.FeatureId);
-			var productDto = product.ToProductDto();
+			var productDto = product.ToProductFullDto();
 			return Ok(productDto);
 		}
 		[HttpPost]
