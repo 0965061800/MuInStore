@@ -10,7 +10,7 @@ namespace MuInStoreAPI.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal SumTotal { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
-        public string Address { get; set; } = String.Empty;
+        public string? Address { get; set; }
         public int PaymentId { get; set; }
         public string AppUserId { get; set; }
         public Payment Payment { get; set; }

@@ -34,8 +34,8 @@ namespace MuInStoreAPI.Controllers
             {
                 return NotFound("No brand found");
             }
-            BrandDto categoryDto = brand.ToBrandDto();
-            return Ok(categoryDto);
+            BrandDto brandDto = brand.ToBrandDto();
+            return Ok(brandDto);
         }
         [HttpPost]
         public async Task<IActionResult> CreateBrand(RequestBrandDto requestBrandDto)

@@ -1,4 +1,5 @@
-﻿using MuInStoreAPI.Data;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using MuInStoreAPI.Data;
 using MuInStoreAPI.Repository;
 using MuInStoreAPI.Repository.IRepository;
 
@@ -12,6 +13,12 @@ namespace MuInStoreAPI.UnitOfWork
         public IFeatureRepository FeatureRepository { get; private set; }
         public IBrandRepository BrandRepository { get; private set; }
         public ICommentRepository CommentRepository { get; private set; }
+        public IPaymentRepository PaymentRepository { get; private set; }
+        public IOrderRepository OrderRepository { get; private set; }
+        public IOrderDetailRepository OrderDetailRepository { get; private set; }
+        private IDbContextTransaction _transaction;
+
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -21,10 +28,25 @@ namespace MuInStoreAPI.UnitOfWork
             FeatureRepository = new FeatureRepository(_context);
             BrandRepository = new BrandRepository(_context);
             CommentRepository = new CommentRepository(_context);
+            PaymentRepository = new PaymentRepository(_context);
+            OrderRepository = new OrderRepository(_context);
+            OrderDetailRepository = new OrderDetailRepository(_context);
         }
         public async Task Save()
         {
             await _context.SaveChangesAsync();
+        }
+        public async Task BeginTransactionAsync()
+        {
+            _transaction = await _context.Database.BeginTransactionAsync();
+        }
+        public async Task RollbackAsync()
+        {
+            await _transaction.RollbackAsync();
+        }
+        public async Task CommitAsync()
+        {
+            await _transaction.CommitAsync();
         }
     }
 }

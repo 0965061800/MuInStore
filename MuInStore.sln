@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuInStoreAPI", "MuInStoreAPI\MuInStoreAPI.csproj", "{2B2812FC-901C-4D2E-BE51-0A174EA77243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuInStoreAPI", "MuInStoreAPI\MuInStoreAPI.csproj", "{2B2812FC-901C-4D2E-BE51-0A174EA77243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuInMVC", "MuInMVC\MuInMVC.csproj", "{6FC74AFB-7565-4F8B-8275-626D89527C1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuInMVC", "MuInMVC\MuInMVC.csproj", "{6FC74AFB-7565-4F8B-8275-626D89527C1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuInShared", "MuInShared\MuInShared.csproj", "{CD993E24-0BA9-4D08-A009-BE089E4C4375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuInShared", "MuInShared\MuInShared.csproj", "{CD993E24-0BA9-4D08-A009-BE089E4C4375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

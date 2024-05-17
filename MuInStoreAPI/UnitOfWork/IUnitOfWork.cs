@@ -9,7 +9,12 @@ namespace MuInStoreAPI.UnitOfWork
         IFeatureRepository FeatureRepository { get; }
         IBrandRepository BrandRepository { get; }
         ICommentRepository CommentRepository { get; }
-
+        IPaymentRepository PaymentRepository { get; }
+        IOrderRepository OrderRepository { get; }
+        IOrderDetailRepository OrderDetailRepository { get; }
+        Task BeginTransactionAsync();
+        Task CommitAsync();
+        Task RollbackAsync();
         Task Save();
     }
 }
