@@ -21,6 +21,7 @@ namespace MuInStoreAPI.Repository
 				.Include(x => x.Brand)
 				.Include(x => x.Feature)
 				.Include(x => x.Comments)
+				.ThenInclude(x => x.AppUser)
 				.Include(x => x.ProductSkus)
 				.ThenInclude(p => p.Color)
 				.FirstOrDefaultAsync();

@@ -1,0 +1,9 @@
+﻿
+@if (ViewBag.UserName != null)
+{
+	<a class="shopping-cart" href="cart.html"><i class="fas fa-user"></i></a>
+}
+else
+{
+	<a asp-page="/Account/Login" class="cart-btn">Login</a>
+}
