@@ -1,4 +1,32 @@
 ﻿@page
-@model MuInMVC.Pages.Account.RegisterModel
+@model RegisterModel
 @{
+    ViewData["Title"] = "Register";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
+
+<div class="w-50 mb-3" style="margin-left:50%; transform:translateX(-50%)">
+    <img src="~/assets/img/logo.png" class="w-100" />
+</div>
+<h2 class="text-center mb-3">Đăng ký</h2>
+<form method="post">
+    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+    <div class="form-group">
+        <label asp-for="Register.UserName"></label>
+        <input asp-for="Register.UserName" class="form-control" />
+        <span asp-validation-for="Register.UserName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Register.Email"></label>
+        <input asp-for="Register.Email" class="form-control" />
+        <span asp-validation-for="Register.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Register.Password"></label>
+        <input asp-for="Register.Password" class="form-control" type="password" />
+        <span asp-validation-for="Register.Password" class="text-danger"></span>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-warning font-weight-bold">SignUp</button>
+    </div>
+</form>

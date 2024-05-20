@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MuInShared;
+using MuInShared.Cart;
 using MuInShared.Category;
 using MuInShared.Product;
 using Newtonsoft.Json;
@@ -59,6 +61,21 @@ namespace MuInMVC.Controllers
 				productFullDto = JsonConvert.DeserializeObject<ProductFullDto>(data);
 			}
 			ViewBag.ProductName = productFullDto.ProductName;
+
+			if (productFullDto.ProductSkuDtos != null)
+			{
+				var colors = new SelectList(productFullDto.ProductSkuDtos
+					.Where(p => p.ColorDto != null) // Ensure ColorDto is not null
+					.Select(p => new { p.ColorDtoId, Name = p.ColorDto.ColorName }), "ColorDtoId", "Name");
+
+				ViewData["Colors"] = colors;
+			}
+
+			AddToCartVM addToCart = new AddToCartVM
+			{
+				ProductId = productFullDto.ProductId,
+			};
+			ViewBag.AddToCart = addToCart;
 			return View(productFullDto);
 		}
 	}

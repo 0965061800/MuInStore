@@ -5,7 +5,10 @@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Login</h2>
+<div class="w-50 mb-3" style="margin-left:50%; transform:translateX(-50%)">
+    <img src="~/assets/img/logo.png" class="w-100"/>
+</div>
+<h2 class="text-center mb-3">Đăng nhập</h2>
 <form method="post">
     <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
     <div class="form-group">
@@ -18,5 +21,7 @@
         <input asp-for="Login.Password" class="form-control" type="password" />
         <span asp-validation-for="Login.Password" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-warning font-weight-bold">Login</button>
+    </div>
 </form>

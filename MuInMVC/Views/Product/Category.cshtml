@@ -32,7 +32,7 @@
 						@* <li data-filter=".strawberry">Strawberry</li> *@
 						@foreach (var cat in (List<CategoryDto>)ViewData["Categories"])
 						{
-							<li><a asp-controller="Product" asp-action="CategoryProductList" asp-route-id="@cat.CatId">@cat.CatName</a></li>
+							<li><a asp-controller="Product" asp-action="Category" asp-route-id="@cat.CatId">@cat.CatName</a></li>
 						}
 					</ul>
 				</div>
@@ -45,7 +45,7 @@
 				<div class="col-lg-4 col-md-6 text-center strawberry">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="single-product.html"><img src="~/assets/img/products/product-img-1.jpg" alt=""></a>
+							<a asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src="~/assets/img/products/product-img-1.jpg" alt=""></a>
 						</div>
 						<h3>@product.ProductName</h3>
 						<p class="product-price"> @product.ProductPrice.ToString("#,##0") VNĐ </p>

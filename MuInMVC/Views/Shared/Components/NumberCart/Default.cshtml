@@ -1,0 +1,10 @@
+﻿@model List<MuInShared.Cart.AddToCartVM>
+@if (Model != null && Model.Count()>0)
+{
+    <a class="shopping-cart" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i>  <span class="badge badge-bill badge-warning">@Model.Count()</span></a>
+}
+else
+{
+    <a class="shopping-cart" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i></a>
+}    
+    
