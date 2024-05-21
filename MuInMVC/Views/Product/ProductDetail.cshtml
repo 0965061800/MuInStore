@@ -39,19 +39,21 @@
 					<p class="single-product-pricing"><span>Say no with sale</span> @Model.ProductPrice.ToString("#,##0") VNĐ</p>
 					<p>@Model.Description</p>
 					<div class="single-product-form">
-						<form asp-controller="Cart" asp-action="AddToCart" method="Post">
+						<form id="addToCartForm" asp-controller="Cart" asp-action="AddToCart" method="Post">
 							<input type="hidden" asp-for="@AddToCartVM.ProductId" />
 							<div class="row gx-10">
 								<div class="col-2">
-									<input type="number" placeholder="0" asp-for="@AddToCartVM.Quantity" class="form-control">
+									<input type="number" placeholder="0" asp-for="@AddToCartVM.Quantity" id="quantityInput" class="form-control">
 								</div>
 								<div class="col-4">
-									<select asp-for="@AddToCartVM.ColorId" class="form-control" asp-items="ViewBag.Colors">
+									<select asp-for="@AddToCartVM.ColorId" class="form-control" asp-items="ViewBag.Colors" id="colorSelect">
 										<option value="" selected>Choose Color</option>
 									</select>
 								</div>
 							</div>
-							<button type="submit" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+							<button type="submit" class="p-0 border-0 bg-white mb-5 btn shadow-none">
+								<a class="cart-btn mb-0"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+							</button>
 						</form>
 						<p><strong>Categories: </strong>@Model.CategoryName</p>
 					</div>
@@ -201,3 +203,23 @@
 	}
 </style>
  *@
+ @section Scripts {
+	<script>
+		document.getElementById('addToCartForm').addEventListener('submit', function (event) {
+			var quantity = document.getElementById('quantityInput').value;
+			var color = document.getElementById('colorSelect').value;
+
+			if (quantity === '' || quantity <= 0) {
+				alert('Bạn cần nhập số lượng mua');
+				event.preventDefault(); // Prevent form submission
+				return;
+			}
+
+			if (color === '') {
+				alert('Bạn muốn màu gì?');
+				event.preventDefault(); // Prevent form submission
+				return;
+			}
+		});
+	</script>
+ }

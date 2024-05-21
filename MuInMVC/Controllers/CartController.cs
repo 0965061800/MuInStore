@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MuInMVC.Extension;
+using MuInMVC.ModelViews;
 using MuInShared.Cart;
 using Newtonsoft.Json;
 using System.Text;
@@ -53,17 +54,20 @@ namespace MuInMVC.Controllers
 						cart.Add(item);
 					}
 					HttpContext.Session.Set<List<AddToCartVM>>("GioHang", cart);
-					return Json(new { success = true });
+					ViewBag.Message = "Thêm vào giỏ hàng thành công";
+					return RedirectToAction("Index", "Product");
 
 				}
 				catch (Exception ex)
 				{
-					return Json(new { success = false });
+					ViewBag.Message = "Thêm vào giỏ hàng thất bại";
+					return RedirectToAction("Index", "Product");
 				}
 			}
 			else
 			{
-				return Json(new { success = false });
+				ViewBag.Message = "Thêm vào giỏ hàng thất bại";
+				return RedirectToAction("Index", "Product");
 			}
 		}
 
@@ -93,5 +97,50 @@ namespace MuInMVC.Controllers
 				}
 			}
 		}
+
+		public ActionResult Remove(int id, int colorId)
+		{
+			try
+			{
+				List<AddToCartVM> gioHang = GioHang;
+				AddToCartVM item = gioHang.SingleOrDefault(p => p.ProductId == id && p.ColorId == colorId);
+				if (item != null)
+				{
+					gioHang.Remove(item);
+				}
+				//luu lai session
+				HttpContext.Session.Set<List<AddToCartVM>>("GioHang", gioHang);
+				return RedirectToAction("Index");
+			}
+			catch
+			{
+				return RedirectToAction("Index");
+			}
+		}
+
+		[HttpPost]
+		public IActionResult UpdateCart([FromBody] List<CartUpdateModel> updatedItems)
+		{
+			List<AddToCartVM> gioHang = GioHang;
+			try
+			{
+				// Update the cart with the new quantities
+				foreach (var item in updatedItems)
+				{
+					//_cartService.UpdateItem(item.ProductId, item.ColorId, item.Amount);
+					AddToCartVM cartLine = gioHang.SingleOrDefault(c => c.ProductId == item.ProductId && c.ColorId == item.ColorId);
+					cartLine.Quantity = item.Amount;
+				}
+				HttpContext.Session.Set<List<AddToCartVM>>("GioHang", gioHang);
+				// Optionally return updated cart data or a success message
+				return Json(new { success = true });
+			}
+			catch (Exception ex)
+			{
+				// Handle the error
+				return Json(new { success = false, message = ex.Message });
+			}
+		}
+
 	}
 }

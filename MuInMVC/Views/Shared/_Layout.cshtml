@@ -67,7 +67,7 @@
 	@RenderBody()
 	<partial name="_LogoCarousel.cshtml" /></partial>
 	<partial name="_Footer.cshtml"></partial>
-
+	@await RenderSectionAsync("Scripts", required: false)
 	<!-- jquery -->
 	<script src="~/assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
