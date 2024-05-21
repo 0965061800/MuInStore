@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MuInShared;
 using MuInShared.Cart;
 using MuInShared.Category;
+using MuInShared.Comment;
 using MuInShared.Product;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace MuInMVC.Controllers
 {
@@ -75,8 +78,44 @@ namespace MuInMVC.Controllers
 			{
 				ProductId = productFullDto.ProductId,
 			};
+
 			ViewBag.AddToCart = addToCart;
+			RequestCommentDto commentDto = new RequestCommentDto();
+			ViewBag.RequestCommentDto = commentDto;
+
 			return View(productFullDto);
+		}
+
+		public async Task<IActionResult> CreateCommentAsync(int productId, RequestCommentDto requestCommentDto)
+		{
+			if (!ModelState.IsValid)
+			{
+				var message = string.Join(" | ", ModelState.Values
+			   .SelectMany(v => v.Errors)
+			   .Select(e => e.ErrorMessage));
+				TempData["Message"] = message;
+				return RedirectToAction("ProductDetail", new { id = productId });
+			}
+			var token = HttpContext.Session.GetString("JWToken");
+
+			if (string.IsNullOrEmpty(token))
+			{
+				TempData["Message"] = "You need to login to comment";
+				return RedirectToAction("ProductDetail", new { id = productId });
+			}
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			string data = JsonConvert.SerializeObject(requestCommentDto);
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+			HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Comment/" + productId, content).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				return RedirectToAction("ProductDetail", new { id = productId });
+			}
+			else
+			{
+				TempData["Message"] = await response.Content.ReadAsStringAsync();
+				return RedirectToAction("ProductDetail", new { id = productId });
+			}
 		}
 	}
 }

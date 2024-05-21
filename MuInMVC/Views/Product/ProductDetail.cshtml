@@ -1,12 +1,14 @@
 ﻿@using MuInMVC.ModelViews
 @using MuInShared.Cart
+@using MuInShared.Comment
 @model MuInShared.Product.ProductFullDto;
 @{
 	ViewData["Title"] = ViewBag.ProductName;
 	var AddToCartVM = ViewBag.AddToCart as AddToCartVM;
+	var RequestCommentDto = ViewBag.RequestCommentDto as RequestCommentDto;
 }
 
-<partial name="_Header1" />
+<partial name="_Header2" />
 <!-- breadcrumb-section -->
 <div class="breadcrumb-section breadcrumb-bg">
 	<div class="container">
@@ -101,12 +103,22 @@
 
 		<div class="comment-template">
 			<h4>Viết Bình Luận</h4>
-			<form asp-action="ProductDetail" method="post">
+			@if (TempData["Message"] != null)
+			{
+				<div class="alert alert-info">
+					@TempData["Message"]
+				</div>
+			}
+			<form asp-controller="Product" asp-action="CreateComment" method="Post">
+				<input name="productId" type="hidden" value="@Model.ProductId"/>
 				<p>
-					<input type="text" placeholder="Tiêu đề">
+					<input asp-for="@RequestCommentDto.Title" type="text" placeholder="Tiêu đề">
+				</p>
+				<p>
+					<input asp-for="@RequestCommentDto.Rate" type="number"/> /5
 				</p>
 
-				<div class="rating d-flex justify-content-center">
+@* 				<div class="rating d-flex justify-content-center">
 					@for (int i = 1; i <= 5; i++)
 					{
 						<input type="radio" id="star@i" name="Rating" value="@i" class="d-none" />
@@ -114,9 +126,9 @@
 							<i class="fa fa-star"></i>
 						</label>
 					}
-				</div>
+				</div> *@
 
-				<p><textarea name="comment" id="comment" cols="30" rows="10" placeholder="Bình luận tại đây"></textarea></p>
+				<p><textarea asp-for="@RequestCommentDto.Content" cols="30" rows="10" placeholder="Bình luận tại đây"></textarea></p>
 				<p><input type="submit" value="Đăng"></p>
 			</form>
 		</div>
@@ -172,7 +184,7 @@
 	</div>
 </div>
 <!-- end more products -->
-<style>
+@* <style>
 	.rating {
 		direction: rtl;
 	}
@@ -188,3 +200,4 @@
 		color: #FFD700;
 	}
 </style>
+ *@
