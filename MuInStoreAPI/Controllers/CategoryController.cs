@@ -19,7 +19,7 @@ namespace MuInStoreAPI.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Category>>> GetAllCategory([FromHeader] CatQueryObject catQuery)
 		{
-			var categories = await _uow.CategoryRepository.GetAll(filter: x => x.ParentCatId == catQuery.ParentId);
+			var categories = await _uow.CategoryRepository.GetAll(filter: x => x.ParentCatId == catQuery.ParentId, includeProperties: "Subcategories");
 			if (categories == null)
 			{
 				return NotFound("There is no category in your database");

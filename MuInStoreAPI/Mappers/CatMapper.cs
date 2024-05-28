@@ -13,6 +13,7 @@ namespace MuInStoreAPI.Mappers
 				CatImage = category.CatImage,
 				CatName = category.CatName,
 				Alias = category.Alias,
+				SubCategoryDto = category.Subcategories.Select(x => x.ToCategoryDto()).ToList(),
 			};
 		}
 		public static CategoryFullDto ToCategoryFullDto(this Category category, List<Product> allProducts)

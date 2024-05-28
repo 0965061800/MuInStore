@@ -6,7 +6,9 @@
 }
 
 <div class="w-50 mb-3" style="margin-left:50%; transform:translateX(-50%)">
-    <img src="~/assets/img/logo.png" class="w-100"/>
+    <a asp-controller="Home">
+        <img src="~/assets/img/logo.png" class="w-100" />
+    </a>
 </div>
 <h2 class="text-center mb-3">Đăng nhập</h2>
 <form method="post">
@@ -25,3 +27,4 @@
         <button type="submit" class="btn btn-warning font-weight-bold">Login</button>
     </div>
 </form>
+<p class="text-center mt-2">Chưa có tài khoản ? <a asp-page="/Account/Register">Đăng ký</a></p>

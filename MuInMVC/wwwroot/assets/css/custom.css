@@ -1,0 +1,9 @@
+﻿
+.custom-select {
+    border-color: #f28123
+}
+
+    .custom-select:focus {
+        border-color: #f28123;
+        box-shadow: 0 0 0 .2rem rgba(246, 179, 82, 0.8);
+    }

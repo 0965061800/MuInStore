@@ -6,6 +6,8 @@
 	ViewData["Title"] = ViewBag.ProductName;
 	var AddToCartVM = ViewBag.AddToCart as AddToCartVM;
 	var RequestCommentDto = ViewBag.RequestCommentDto as RequestCommentDto;
+	var productImage = Model.ProductImage;
+	var imageUrl = $"https://firebasestorage.googleapis.com/v0/b/muinimage.appspot.com/o/images%2F{productImage}?alt=media&token=fd9499bb-8e10-473f-b349-b408168e4e1e";
 }
 
 <partial name="_Header2" />
@@ -30,12 +32,24 @@
 		<div class="row">
 			<div class="col-md-5">
 				<div class="single-product-img">
-					<img src="~/assets/img/products/product-img-5.jpg" alt="">
+					@* <img src="~/assets/img/products/product-img-5.jpg" alt=""> *@
+					<img src=@imageUrl alt="Product Image" />
 				</div>
 			</div>
 			<div class="col-md-7">
 				<div class="single-product-content">
-					<h3>@Model.ProductName</h3>
+					<h2>@Model.ProductName</h2>
+					@if (Model.CommentDtos != null && Model.CommentDtos.Count() > 0)
+					{
+						<p class="single-product-pricing">
+							@Model.CommentDtos.Average(x => x.Rate)/5<i class="fas fa-star text-warning"></i>
+						</p>
+					} else
+					{
+						<p class="single-product-pricing">
+							0/5<i class="fas fa-star text-warning"></i>
+						</p>
+					}
 					<p class="single-product-pricing"><span>Say no with sale</span> @Model.ProductPrice.ToString("#,##0") VNĐ</p>
 					<p>@Model.Description</p>
 					<div class="single-product-form">
@@ -84,7 +98,10 @@
 								<img src="~/assets/img/avaters/avatar1.png" alt="">
 							</div>
 							<div class="comment-text-body">
-								<h4>@comment.UserName <span class="comment-date">@comment.CreatedAt.ToString("dd-MM-yyyy")</span> </h4>
+								<div class="row">
+									<h4 class="col-5">@comment.UserName <span class="comment-date">@comment.CreatedAt.ToString("dd-MM-yyyy")</span> </h4>
+									<h4 class="col-3">@comment.Rate <i class="fas fa-star text-warning"></i> </h4>
+								</div>
 								<b>@comment.Title</b>
 								<p>@comment.Content</p>
 							</div>

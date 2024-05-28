@@ -20,6 +20,7 @@ namespace MuInShared.Product
 		public string Alias { get; set; } = string.Empty;
 		public bool Active { get; set; } = true;
 		public string ProductImage { get; set; } = string.Empty;
+		public string ImageName { get; set; } = string.Empty;
 		public int? FeatureId { get; set; }
 		public string? FeatureName { get; set; }
 		public int? BrandId { get; set; }

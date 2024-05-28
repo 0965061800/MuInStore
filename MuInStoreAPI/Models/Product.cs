@@ -19,6 +19,7 @@ namespace MuInStoreAPI.Models
 		public bool Active { get; set; } = true;
 		public DateTime CreatAt { get; set; } = DateTime.Now;
 		public string ProductImage { get; set; } = string.Empty;
+		public string ImageName { get; set; } = string.Empty;
 		public int? FeatureId { get; set; }
 		public int? BrandId { get; set; }
 		public int? CategoryId { get; set; }

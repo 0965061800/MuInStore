@@ -20,7 +20,9 @@ namespace MuInStoreAPI.Mappers
 				Alias = ProductModel.Alias,
 				FeatureName = ProductModel.Feature?.FeatureName,
 				BrandName = ProductModel.Brand?.BrandName,
-				CategoryName = ProductModel.Category?.CatName
+				CategoryName = ProductModel.Category?.CatName,
+				ProductImage = ProductModel.ProductImage,
+				ImageName = ProductModel.ImageName
 			};
 		}
 		public static Product ToProduct(this RequestProductDto requestProductDto)
@@ -39,6 +41,8 @@ namespace MuInStoreAPI.Mappers
 				FeatureId = requestProductDto.FeatureId,
 				BrandId = requestProductDto.BrandId,
 				CategoryId = requestProductDto.CategoryId,
+				ProductImage = requestProductDto.productImage ?? "",
+				ImageName = requestProductDto.ImageName ?? ""
 			};
 		}
 
@@ -56,6 +60,8 @@ namespace MuInStoreAPI.Mappers
 			product.FeatureId = updateProductDto.FeatureId;
 			product.BrandId = updateProductDto.BrandId;
 			product.CategoryId = updateProductDto.CategoryId;
+			product.ImageName = updateProductDto.ImageName;
+			product.ProductImage = updateProductDto.ProductImage;
 			return product;
 		}
 
@@ -73,6 +79,7 @@ namespace MuInStoreAPI.Mappers
 				VideoLink = product.VideoLink,
 				Alias = product.Alias,
 				ProductImage = product.ProductImage,
+				ImageName = product.ImageName,
 				FeatureId = product.FeatureId,
 				FeatureName = product.Feature?.FeatureName,
 				BrandId = product.BrandId,

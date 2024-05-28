@@ -31,28 +31,33 @@
 						@* <li data-filter=".strawberry">Strawberry</li> *@
 						@foreach (var cat in (List<CategoryDto>)ViewData["Categories"])
 						{
-							<li><a asp-controller="Product" asp-action="Category" asp-route-id="@cat.CatId">@cat.CatName</a></li>
+							<li><a asp-controller="Category" asp-route-id="@cat.CatId">@cat.CatName</a></li>
 						}
 					</ul>
 				</div>
 			</div>
 		</div>
-
-		<div class="row product-lists">
-
-			@foreach (var product in Model)
-			{
-				<div class="col-lg-4 col-md-6 text-center strawberry">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
+		<div class="row">
+			<div class="col-2">
+				<vc:query-product></vc:query-product>
+			</div>
+			<div class="col-10 product-lists">
+				<div class="row">
+					@foreach (var product in Model)
+					{
+						<div class="col-lg-4 col-md-6 text-center strawberry">
+							<div class="single-product-item">
+								<div class="product-image">
+									<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src="~/assets/img/products/product-img-1.jpg" alt=""></a>
+								</div>
+								<h3>@product.ProductName</h3>
+								<p class="product-price"> @product.ProductPrice.ToString("#,##0") VNĐ </p>
+								<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+							</div>
 						</div>
-						<h3>@product.ProductName</h3>
-						<p class="product-price"> @product.ProductPrice.ToString("#,##0") VNĐ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
+					}
 				</div>
-			}
+			</div>
 		</div>
 
 		<div class="row">

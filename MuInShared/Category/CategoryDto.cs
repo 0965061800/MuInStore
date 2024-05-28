@@ -6,5 +6,6 @@
 		public string CatName { get; set; } = string.Empty;
 		public string Alias { get; set; } = string.Empty;
 		public string? CatImage { get; set; }
+		public List<CategoryDto> SubCategoryDto { get; set; }
 	}
 }

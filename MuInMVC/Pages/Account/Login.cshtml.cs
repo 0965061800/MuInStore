@@ -43,6 +43,7 @@ namespace MuInMVC.Pages.Account
 					userLogin = JsonConvert.DeserializeObject<NewUserDto>(result);
 					HttpContext.Session.SetString("JWToken", userLogin.Token);
 					HttpContext.Session.SetString("UserName", userLogin.UserName);
+					HttpContext.Session.SetString("UserId", userLogin.UserId);
 					return RedirectToPage("/");
 				}
 				ViewData["ErrorMessage"] = response.Content.ReadAsStringAsync().Result;

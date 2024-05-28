@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MuInMVC.Helpers;
 using MuInShared;
 using MuInShared.Cart;
 using MuInShared.Category;
 using MuInShared.Comment;
+using MuInShared.Helpers;
 using MuInShared.Product;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -40,19 +42,7 @@ namespace MuInMVC.Controllers
 			ViewData["Categories"] = categoryList;
 			return View(productList.Data);
 		}
-		public IActionResult Category(int id)
-		{
-			CategoryFullDto categoryFullDto = new CategoryFullDto();
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category/" + id).Result;
-			if (response.IsSuccessStatusCode)
-			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				categoryFullDto = JsonConvert.DeserializeObject<CategoryFullDto>(data);
-			}
-			ViewBag.CatName = categoryFullDto.CatName;
-			ViewData["Categories"] = categoryFullDto.SubCategories;
-			return View(categoryFullDto.AllProducts);
-		}
+
 
 		public IActionResult ProductDetail(int id)
 		{
@@ -116,6 +106,30 @@ namespace MuInMVC.Controllers
 				TempData["Message"] = await response.Content.ReadAsStringAsync();
 				return RedirectToAction("ProductDetail", new { id = productId });
 			}
+		}
+
+		[HttpPost]
+		public IActionResult Filter(ProductQueryObject query)
+		{
+			ReponseModel<List<ProductDto>> productList = new();
+			List<CategoryDto> categoryList = new();
+
+			var queryString = QueryStringHelper.ToQueryString(query);
+
+			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product" + queryString).Result;
+
+			HttpResponseMessage catResponse = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category").Result;
+
+			if (response.IsSuccessStatusCode)
+			{
+				string data = response.Content.ReadAsStringAsync().Result;
+				productList = JsonConvert.DeserializeObject<ReponseModel<List<ProductDto>>>(data);
+
+				string catData = catResponse.Content.ReadAsStringAsync().Result;
+				categoryList = JsonConvert.DeserializeObject<List<CategoryDto>>(catData);
+			}
+			ViewData["Categories"] = categoryList;
+			return View("Index", productList.Data);
 		}
 	}
 }

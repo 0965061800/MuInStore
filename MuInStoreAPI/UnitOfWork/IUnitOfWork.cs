@@ -13,6 +13,7 @@ namespace MuInStoreAPI.UnitOfWork
 		IOrderRepository OrderRepository { get; }
 		IOrderDetailRepository OrderDetailRepository { get; }
 		IProductSkuRepository ProductSkuRepository { get; }
+		IColorRepository ColorRepository { get; }
 		Task BeginTransactionAsync();
 		Task CommitAsync();
 		Task RollbackAsync();

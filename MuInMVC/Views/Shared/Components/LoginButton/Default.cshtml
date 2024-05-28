@@ -1,7 +1,7 @@
 ﻿
 @if (ViewBag.UserName != null)
 {
-	<a class="shopping-cart" href="cart.html"><i class="fas fa-user"></i></a>
+	<a asp-controller="Account" asp-action="Logout"><i class="fas fa-user"></i></a>
 }
 else
 {

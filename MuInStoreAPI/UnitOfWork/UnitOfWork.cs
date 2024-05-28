@@ -17,6 +17,7 @@ namespace MuInStoreAPI.UnitOfWork
 		public IOrderRepository OrderRepository { get; private set; }
 		public IOrderDetailRepository OrderDetailRepository { get; private set; }
 		public IProductSkuRepository ProductSkuRepository { get; private set; }
+		public IColorRepository ColorRepository { get; private set; }
 		private IDbContextTransaction _transaction;
 
 
@@ -33,6 +34,7 @@ namespace MuInStoreAPI.UnitOfWork
 			OrderRepository = new OrderRepository(_context);
 			OrderDetailRepository = new OrderDetailRepository(_context);
 			ProductSkuRepository = new ProductSkuRepository(_context);
+			ColorRepository = new ColorRepository(_context);
 		}
 		public async Task Save()
 		{
