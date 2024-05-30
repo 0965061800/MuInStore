@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuInStoreAPI.Data;
 
@@ -11,9 +12,11 @@ using MuInStoreAPI.Data;
 namespace MuInStoreAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529065718_addImageNameOnCategory")]
+    partial class addImageNameOnCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace MuInStoreAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "74d53192-f376-4ac5-a87e-f0d652364df1",
+                            Id = "eea04ce2-2c2e-4bba-a019-9cf8b850a5f3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5dbd812d-4823-4aec-95bf-dfa43474410a",
+                            Id = "a760fd51-b597-4c4b-ae20-4903f807bc0d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -318,9 +321,6 @@ namespace MuInStoreAPI.Migrations
 
                     b.Property<string>("CatName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageName")
@@ -854,7 +854,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 2,
                             CategoryId = 1,
-                            CreatAt = new DateTime(2024, 5, 30, 10, 56, 3, 928, DateTimeKind.Local).AddTicks(266),
+                            CreatAt = new DateTime(2024, 5, 29, 13, 57, 17, 64, DateTimeKind.Local).AddTicks(6116),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 3,
                             ImageName = "",
@@ -874,7 +874,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 30, 10, 56, 3, 928, DateTimeKind.Local).AddTicks(282),
+                            CreatAt = new DateTime(2024, 5, 29, 13, 57, 17, 64, DateTimeKind.Local).AddTicks(6135),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 1,
                             ImageName = "",
@@ -894,7 +894,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 30, 10, 56, 3, 928, DateTimeKind.Local).AddTicks(287),
+                            CreatAt = new DateTime(2024, 5, 29, 13, 57, 17, 64, DateTimeKind.Local).AddTicks(6140),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 2,
                             ImageName = "",
@@ -914,7 +914,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = true,
                             BrandId = 3,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 5, 30, 10, 56, 3, 928, DateTimeKind.Local).AddTicks(290),
+                            CreatAt = new DateTime(2024, 5, 29, 13, 57, 17, 64, DateTimeKind.Local).AddTicks(6143),
                             Description = "- Sản phẩm bao gồm: Đàn + Ghế Roland RAM8065 | - Động cơ SuperNATURAL Piano cho âm thanh phong phú & chân thực | - Bàn phím PHA-4 Standard có tính năng cảm biến với độ phân giải cao | - Pedal Progressive Damper Action với phản ứng liên tục | - Hiệu ứng Headphones 3D Ambience. Kết nối với các ứng dụng thú vị | - Tính năng nhịp điệu phức tạp với điệu đệm thông minh; | - Đàn có dạng tủ đứng tiết kiệm không gian",
                             FeatureId = 1,
                             ImageName = "",

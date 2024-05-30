@@ -23,7 +23,9 @@ namespace MuInStoreAPI.Controllers
 		{
 			Expression<Func<Product, bool>> filter = p =>
 			(string.IsNullOrEmpty(query.BrandAlias) || p.Brand.Alias.Contains(query.BrandAlias)) &&
-			(string.IsNullOrEmpty(query.FeatureAlias) || p.Feature.Alias.Contains(query.FeatureAlias));
+			(string.IsNullOrEmpty(query.FeatureAlias) || p.Feature.Alias.Contains(query.FeatureAlias)) &&
+			(string.IsNullOrEmpty(query.CategoryAlias) || p.Category.Alias.Contains(query.CategoryAlias)) && (query.BrandId == 0 || p.BrandId == query.BrandId) && (query.CategoryId == 0 || p.CategoryId == query.CategoryId) && (query.FeatureId == 0 || p.FeatureId == query.FeatureId) && (query.BestSeller == false || p.BestSeller == true);
+
 
 			Func<IQueryable<Product>, IOrderedQueryable<Product>> order = q => q.OrderBy(d => d.CreatAt);
 			if (query.SortByPrice)

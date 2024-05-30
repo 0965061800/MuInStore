@@ -11,6 +11,8 @@ namespace MuInStoreAPI.Mappers
 			{
 				CatId = category.CatId,
 				CatImage = category.CatImage,
+				ImageName = category.ImageName,
+				Description = category.Description,
 				CatName = category.CatName,
 				Alias = category.Alias,
 				SubCategoryDto = category.Subcategories.Select(x => x.ToCategoryDto()).ToList(),
@@ -22,8 +24,10 @@ namespace MuInStoreAPI.Mappers
 			{
 				CatId = category.CatId,
 				CatImage = category.CatImage,
+				ImageName = category.ImageName,
 				CatName = category.CatName,
 				Alias = category.Alias,
+				Description = category.Description,
 				AllProducts = allProducts.Select(p => p.ToProductDto()).ToList(),
 				SubCategories = category.Subcategories.Select(c => c.ToCategoryDto()).ToList(),
 			};
@@ -35,7 +39,9 @@ namespace MuInStoreAPI.Mappers
 				CatName = requestCatDto.CatName,
 				Alias = requestCatDto.Alias,
 				CatImage = requestCatDto.CatImage,
+				ImageName = requestCatDto.ImageName,
 				ParentCatId = requestCatDto.ParentCatId,
+				Description = requestCatDto.Description
 			};
 		}
 
@@ -44,7 +50,9 @@ namespace MuInStoreAPI.Mappers
 			category.CatName = updateCatDto.CatName;
 			category.Alias = updateCatDto.Alias;
 			category.CatImage = updateCatDto.CatImage;
+			category.ImageName = updateCatDto.ImageName;
 			category.ParentCatId = updateCatDto.ParentCatId;
+			category.Description = updateCatDto.Description;
 			return category;
 		}
 	}
