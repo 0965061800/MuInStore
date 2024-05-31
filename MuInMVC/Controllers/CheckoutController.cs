@@ -2,6 +2,7 @@
 using MuInMVC.Extension;
 using MuInShared.Cart;
 using MuInShared.Checkout;
+using MuInShared.Order;
 using MuInShared.User;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -84,6 +85,66 @@ namespace MuInMVC.Controllers
 			//ViewData["lsTinhThanh"] = new SelectList(_context.Locations.Where(x => x.Levels == 1).OrderBy(x => x.Type).ToList(), "Location", "Name");
 		}
 
+		public async Task<IActionResult> Checkout()
+		{
+			var cart = HttpContext.Session.Get<List<AddToCartVM>>("GioHang");
+			List<CartItemReponse> cartItemReponses = new List<CartItemReponse>();
+			OrderDto orderResponse = new OrderDto();
+			using (var client = new HttpClient())
+			{
+				string cartData = JsonConvert.SerializeObject(cart);
+				StringContent content = new StringContent(cartData, Encoding.UTF8, "application/json");
+				HttpResponseMessage cartResponse = _httpClient.PostAsync(_httpClient.BaseAddress + "/Cart", content).Result;
+				if (cartResponse.IsSuccessStatusCode)
+				{
+					string result = cartResponse.Content.ReadAsStringAsync().Result;
+					cartItemReponses = JsonConvert.DeserializeObject<List<CartItemReponse>>(result);
+				}
+			}
 
+			//Submit Cart
+			var token = HttpContext.Session.GetString("JWToken");
+
+			if (string.IsNullOrEmpty(token))
+			{
+				TempData["Message"] = "You need to login to comment";
+				return RedirectToPage("Login");
+			}
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			string dataCart = JsonConvert.SerializeObject(cartItemReponses);
+			StringContent contentRequest = new StringContent(dataCart, Encoding.UTF8, "application/json");
+			HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Checkout", contentRequest).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				HttpContext.Session.Set<List<AddToCartVM>>("GioHang", new List<AddToCartVM>());
+				return RedirectToAction("Success");
+			}
+			else
+			{
+				TempData["Message"] = await response.Content.ReadAsStringAsync();
+				return View();
+			}
+		}
+
+		public async Task<ActionResult> Success()
+
+		{
+			List<OrderDto> orders = new List<OrderDto>();
+			var token = HttpContext.Session.GetString("JWToken");
+			if (string.IsNullOrEmpty(token))
+			{
+				TempData["Message"] = "You need to login to comment";
+				return RedirectToPage("Login");
+			}
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/User").Result;
+			if (response.IsSuccessStatusCode)
+			{
+				string data = response.Content.ReadAsStringAsync().Result;
+				orders = JsonConvert.DeserializeObject<List<OrderDto>>(data);
+			}
+			OrderDto orderSuccess = orders.OrderByDescending(x => x.CreateDate).FirstOrDefault();
+			return View(orderSuccess);
+		}
 	}
 }

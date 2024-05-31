@@ -25,6 +25,8 @@ namespace MuInStoreAPI.Controllers
 		[Authorize]
 		public async Task<IActionResult> Checkout([FromBody] List<CartItemReponse> cart)
 		{
+
+
 			try
 			{
 				var username = User.GetUserName();

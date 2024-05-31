@@ -1,0 +1,39 @@
+﻿@model MuInShared.Order.OrderDto
+
+@{
+	
+}
+<partial name="_Header2" />
+<div class="breadcrumb-section breadcrumb-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2 text-center">
+				<div class="breadcrumb-text">
+					<p></p>
+					<h1>Buying Successfull</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="cart-section mt-150 mb-150">
+	<div class="container">
+		<div class="row gx-10">
+			<div class="col4 text-left">
+				<h3>Cảm ơn bạn đã mua hàng của nhà MuIn</h3>
+				<p>Tên khách hàng: @Model.UserName</p>
+				<p>Số điện thoại: @Model.Phone</p>
+				<p>Địa chỉ: @Model.Address</p>
+				<p>Mã đơn hàng: @Model.OrderId</p>
+				<p>Tổng tiền: @Model.SumTotal.ToString("#,##0") VNĐ</p>
+				<p>Ngày đặt hàng: @Model.CreateDate</p>
+			</div>
+			<div class="col-5">
+				<img src="~/assets/img/success.jpg" alt="success" style="width:100%; height:100%; object-fit:cover" />
+			</div>
+		</div>
+	</div>
+</div>
+
+
