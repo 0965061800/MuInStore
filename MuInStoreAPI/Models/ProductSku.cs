@@ -10,9 +10,11 @@ namespace MuInStoreAPI.Models
 		public decimal UnitPrice { get; set; }
 		public int UnitInStock { get; set; }
 		public int ColorId { get; set; }
-		public Color Color { get; set; }
+		public Color? Color { get; set; }
 		public int ProductId { get; set; }
-		public Product Product { get; set; }
+		public Product? Product { get; set; }
+		public string skuImage { get; set; } = string.Empty;
+		public string ImageName { get; set; } = string.Empty;
 		public List<ProductImage> Images { get; set; } = new List<ProductImage>();
 		public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 	}

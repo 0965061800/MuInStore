@@ -51,13 +51,13 @@ namespace MuInStoreAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2cd53537-d53e-446c-9174-e3071cbe6f93",
+                            Id = "d3bfc716-0ba3-4d75-86d6-77731684042f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "79612c9f-1dfb-4197-b6ee-9910f70d15b0",
+                            Id = "d0751337-b076-47f1-886f-d2ac2e65121f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -871,7 +871,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 2,
                             CategoryId = 1,
-                            CreatAt = new DateTime(2024, 6, 2, 11, 18, 21, 332, DateTimeKind.Local).AddTicks(9726),
+                            CreatAt = new DateTime(2024, 6, 2, 19, 57, 48, 398, DateTimeKind.Local).AddTicks(2156),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 3,
                             ImageName = "",
@@ -891,7 +891,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 6, 2, 11, 18, 21, 332, DateTimeKind.Local).AddTicks(9756),
+                            CreatAt = new DateTime(2024, 6, 2, 19, 57, 48, 398, DateTimeKind.Local).AddTicks(2178),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 1,
                             ImageName = "",
@@ -911,7 +911,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = false,
                             BrandId = 1,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 6, 2, 11, 18, 21, 332, DateTimeKind.Local).AddTicks(9761),
+                            CreatAt = new DateTime(2024, 6, 2, 19, 57, 48, 398, DateTimeKind.Local).AddTicks(2186),
                             Description = "Thông số kỹ thuật YAMAHA C1PE. Model C1 PE Màu sắc/Lớp hoàn thiện Thùng đàn Màu sắc Polished Ebony Lớp phủ Polished Kích cỡ/Trọng lượng Kích thước Rộng 149cm (59\") Cao 101cm (40\") Dày 161cm (5'3\") Trọng lượng Trọng lượng...",
                             FeatureId = 2,
                             ImageName = "",
@@ -931,7 +931,7 @@ namespace MuInStoreAPI.Migrations
                             BestSeller = true,
                             BrandId = 3,
                             CategoryId = 4,
-                            CreatAt = new DateTime(2024, 6, 2, 11, 18, 21, 332, DateTimeKind.Local).AddTicks(9764),
+                            CreatAt = new DateTime(2024, 6, 2, 19, 57, 48, 398, DateTimeKind.Local).AddTicks(2190),
                             Description = "- Sản phẩm bao gồm: Đàn + Ghế Roland RAM8065 | - Động cơ SuperNATURAL Piano cho âm thanh phong phú & chân thực | - Bàn phím PHA-4 Standard có tính năng cảm biến với độ phân giải cao | - Pedal Progressive Damper Action với phản ứng liên tục | - Hiệu ứng Headphones 3D Ambience. Kết nối với các ứng dụng thú vị | - Tính năng nhịp điệu phức tạp với điệu đệm thông minh; | - Đàn có dạng tủ đứng tiết kiệm không gian",
                             FeatureId = 1,
                             ImageName = "",
@@ -1004,6 +1004,10 @@ namespace MuInStoreAPI.Migrations
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -1016,6 +1020,10 @@ namespace MuInStoreAPI.Migrations
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("skuImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductSkuId");
 
@@ -1030,64 +1038,78 @@ namespace MuInStoreAPI.Migrations
                         {
                             ProductSkuId = 1,
                             ColorId = 1,
+                            ImageName = "",
                             ProductId = 1,
                             Sku = "C1PE-C1",
                             UnitInStock = 3,
-                            UnitPrice = 12000000m
+                            UnitPrice = 12000000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 2,
                             ColorId = 2,
+                            ImageName = "",
                             ProductId = 1,
                             Sku = "C1PE-C2",
                             UnitInStock = 5,
-                            UnitPrice = 12500000m
+                            UnitPrice = 12500000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 3,
                             ColorId = 3,
+                            ImageName = "",
                             ProductId = 1,
                             Sku = "C1PE-C3",
                             UnitInStock = 3,
-                            UnitPrice = 12800000m
+                            UnitPrice = 12800000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 4,
                             ColorId = 1,
+                            ImageName = "",
                             ProductId = 2,
                             Sku = "CT3001",
                             UnitInStock = 3,
-                            UnitPrice = 18000000m
+                            UnitPrice = 18000000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 5,
                             ColorId = 2,
+                            ImageName = "",
                             ProductId = 2,
                             Sku = "CT3002",
                             UnitInStock = 4,
-                            UnitPrice = 18200000m
+                            UnitPrice = 18200000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 6,
                             ColorId = 1,
+                            ImageName = "",
                             ProductId = 3,
                             Sku = "CDP-S160BK1",
                             UnitInStock = 4,
-                            UnitPrice = 8200000m
+                            UnitPrice = 8200000m,
+                            skuImage = ""
                         },
                         new
                         {
                             ProductSkuId = 7,
                             ColorId = 1,
+                            ImageName = "",
                             ProductId = 4,
                             Sku = "RP-501R-CB1",
                             UnitInStock = 1,
-                            UnitPrice = 82000000m
+                            UnitPrice = 82000000m,
+                            skuImage = ""
                         });
                 });
 

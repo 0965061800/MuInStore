@@ -1,5 +1,4 @@
 ﻿using MuInShared.Color;
-using MuInShared.Images;
 using MuInShared.Product;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +14,7 @@ namespace MuInShared.ProductSku
 		public ColorDto ColorDto { get; set; }
 		public int ProductId { get; set; }
 		public ProductDto ProductDto { get; set; }
-		public List<ProductImageDto> Images { get; set; }
+		public string skuImage { get; set; }
+		public string ImageName { get; set; }
 	}
 }
