@@ -27,5 +27,17 @@ namespace MuInStoreAPI.Controllers
 			List<UserDto> usersDtos = users.Select(x => x.ToUserDto()).ToList();
 			return Ok(usersDtos);
 		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetAppUser(string id)
+		{
+			var user = await _userManager.Users.Where(x => x.Id == id).Include(x => x.Orders).ThenInclude(o => o.Payment).ThenInclude(p => p.PayStatus).FirstOrDefaultAsync();
+			if (user == null)
+			{
+				NotFound("No found user");
+			}
+			UserFullDto userFullDto = user.ToUserFullDto();
+			return Ok(userFullDto);
+		}
 	}
 }

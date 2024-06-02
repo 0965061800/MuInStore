@@ -27,5 +27,22 @@ namespace MuInStoreAPI.Mappers
 				Active = appUser.Active,
 			};
 		}
+
+		public static UserFullDto ToUserFullDto(this AppUser appUser)
+		{
+			return new UserFullDto
+			{
+				UserName = appUser.UserName ?? "",
+				Email = appUser.Email ?? "",
+				FirstName = appUser.FirstName,
+				LastName = appUser.LastName,
+				DOB = appUser.DOB,
+				Phone = appUser.Phone,
+				Address = appUser.Address,
+				Avatar = appUser.Avatar,
+				Active = appUser.Active,
+				Orders = appUser.Orders.Select(x => x.ToOrderDto()).ToList()
+			};
+		}
 	}
 }
