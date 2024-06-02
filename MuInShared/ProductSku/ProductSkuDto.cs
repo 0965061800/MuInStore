@@ -11,5 +11,6 @@ namespace MuInShared.ProductSku
 		public decimal UnitPrice { get; set; }
 		public int ColorDtoId { get; set; }
 		public ColorDto ColorDto { get; set; }
+
 	}
 }

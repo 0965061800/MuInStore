@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MuInShared.Cart;
 using MuInStoreAPI.Extensions;
-using MuInStoreAPI.Mappers;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
 
@@ -61,12 +60,16 @@ namespace MuInStoreAPI.Controllers
 							ProductSkuId = item.ProductSkuId,
 							Quantity = item.Amount,
 							Total = (decimal)item.TotalMoney,
+							ColorName = item.ColorName ?? "",
+							ProductName = item.ProductName ?? "",
+							ProductId = item.ProductId,
+							UnitPrice = item.UnitPrice,
 						};
 						await _uow.OrderDetailRepository.Create(orderDetail);
 					}
 					await _uow.Save();
 					await _uow.CommitAsync();
-					return Ok(newOrder.ToOrderDto());
+					return Ok();
 				}
 				catch (Exception ex)
 				{

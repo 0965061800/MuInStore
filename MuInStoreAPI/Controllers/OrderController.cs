@@ -23,10 +23,10 @@ namespace MuInStoreAPI.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
 		{
-			var orders = await _uow.OrderRepository.GetAll(includeProperties: "AppUser");
+			var orders = await _uow.OrderRepository.GetAllOrderAsync();
 			if (orders == null)
 			{
-				return NotFound("No Brand in your database");
+				return NotFound("No Orders in your database");
 			}
 			var orderDtos = orders.Select(o => o.ToOrderDto());
 			return Ok(orderDtos);
@@ -34,12 +34,12 @@ namespace MuInStoreAPI.Controllers
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<Order>> GetOrderById(int id)
 		{
-			var order = await _uow.OrderRepository.GetById(id);
+			var order = await _uow.OrderRepository.GetOrderById(id);
 			if (order == null)
 			{
 				return NotFound("No order found");
 			}
-			OrderDto orderDto = order.ToOrderDto();
+			OrderFullDto orderDto = order.ToOrderFullDto();
 			return Ok(orderDto);
 		}
 

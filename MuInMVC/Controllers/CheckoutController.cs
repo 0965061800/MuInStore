@@ -129,7 +129,7 @@ namespace MuInMVC.Controllers
 		public async Task<ActionResult> Success()
 
 		{
-			List<OrderDto> orders = new List<OrderDto>();
+			List<OrderFullDto> orders = new List<OrderFullDto>();
 			var token = HttpContext.Session.GetString("JWToken");
 			if (string.IsNullOrEmpty(token))
 			{
@@ -141,9 +141,9 @@ namespace MuInMVC.Controllers
 			if (response.IsSuccessStatusCode)
 			{
 				string data = response.Content.ReadAsStringAsync().Result;
-				orders = JsonConvert.DeserializeObject<List<OrderDto>>(data);
+				orders = JsonConvert.DeserializeObject<List<OrderFullDto>>(data);
 			}
-			OrderDto orderSuccess = orders.OrderByDescending(x => x.CreateDate).FirstOrDefault();
+			OrderFullDto orderSuccess = orders.OrderByDescending(x => x.CreateDate).FirstOrDefault();
 			return View(orderSuccess);
 		}
 	}
