@@ -11,7 +11,12 @@ namespace MuInMVC
 
 			builder.Services.AddScoped<IProductService, ProductService>();
 			builder.Services.AddScoped<ICategoryService, CategoryService>();
-
+			builder.Services.AddScoped<ICartService, CartService>();
+			builder.Services.AddScoped<IUserService, UserService>();
+			builder.Services.AddScoped<ICheckoutService, CheckoutService>();
+			builder.Services.AddScoped<IOrderService, OrderService>();
+			builder.Services.AddScoped<ICommentService, CommentService>();
+			builder.Services.AddScoped<IProductSkuService, ProductSkuService>();
 
 			builder.Services.AddRazorPages();
 			// Add services to the container.

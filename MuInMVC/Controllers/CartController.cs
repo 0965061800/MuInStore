@@ -1,20 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MuInMVC.Extension;
+using MuInMVC.Interfaces;
 using MuInMVC.ModelViews;
 using MuInShared.Cart;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace MuInMVC.Controllers
 {
 	public class CartController : Controller
 	{
-		Uri baseAddress = new Uri("https://localhost:7137/api");
-		private readonly HttpClient _httpClient;
-		public CartController()
+		ICartService _cartService;
+		public CartController(ICartService cartService)
 		{
-			_httpClient = new HttpClient();
-			_httpClient.BaseAddress = baseAddress;
+			_cartService = cartService;
 		}
 		public List<AddToCartVM> GioHang
 		{
@@ -74,28 +72,19 @@ namespace MuInMVC.Controllers
 		public async Task<IActionResult> Index()
 		{
 			List<AddToCartVM> cart = GioHang;
-			List<CartItemReponse> cartItemReponses = new List<CartItemReponse>();
+
 			if (cart == null || cart.Count == 0)
 			{
 				ViewBag.Message = "No Cart";
 				return View();
 			}
-			using (var client = new HttpClient())
+			string cartData = JsonConvert.SerializeObject(cart);
+			var cartReponse = _cartService.GetCartData(cartData);
+			if (cartReponse == null)
 			{
-				string data = JsonConvert.SerializeObject(cart);
-				StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-				HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Cart", content).Result;
-				if (response.IsSuccessStatusCode)
-				{
-					string result = response.Content.ReadAsStringAsync().Result;
-					cartItemReponses = JsonConvert.DeserializeObject<List<CartItemReponse>>(result);
-					return View(cartItemReponses);
-				}
-				else
-				{
-					return View();
-				}
+				return View("Error");
 			}
+			return View(cartReponse);
 		}
 
 		public ActionResult Remove(int id, int colorId)
@@ -124,15 +113,12 @@ namespace MuInMVC.Controllers
 			List<AddToCartVM> gioHang = GioHang;
 			try
 			{
-				// Update the cart with the new quantities
 				foreach (var item in updatedItems)
 				{
-					//_cartService.UpdateItem(item.ProductId, item.ColorId, item.Amount);
 					AddToCartVM cartLine = gioHang.SingleOrDefault(c => c.ProductId == item.ProductId && c.ColorId == item.ColorId);
 					cartLine.Quantity = item.Amount;
 				}
 				HttpContext.Session.Set<List<AddToCartVM>>("GioHang", gioHang);
-				// Optionally return updated cart data or a success message
 				return Json(new { success = true });
 			}
 			catch (Exception ex)

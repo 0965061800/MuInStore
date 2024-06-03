@@ -1,42 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MuInMVC.Extension;
+using MuInMVC.Interfaces;
 using MuInShared.Cart;
 using MuInShared.Checkout;
 using MuInShared.Order;
-using MuInShared.User;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace MuInMVC.Controllers
 {
 	public class CheckoutController : Controller
 	{
-		Uri baseAddress = new Uri("https://localhost:7137/api");
-		private readonly HttpClient _httpClient;
-		public CheckoutController()
+		ICartService _cartService;
+		IUserService _userService;
+		ICheckoutService _checkoutService;
+		IOrderService _orderService;
+		public CheckoutController(ICartService cartService, IUserService userService, ICheckoutService checkoutService, IOrderService orderService)
 		{
-			_httpClient = new HttpClient();
-			_httpClient.BaseAddress = baseAddress;
-		}
-		public List<AddToCartVM> GioHang
-		{
-			get
-			{
-				var gh = HttpContext.Session.Get<List<AddToCartVM>>("GioHang");
-				if (gh == default(List<AddToCartVM>))
-				{
-					gh = new List<AddToCartVM>();
-				}
-				return gh;
-			}
+			_cartService = cartService;
+			_userService = userService;
+			_checkoutService = checkoutService;
+			_orderService = orderService;
 		}
 
-		public async Task<IActionResult> Index(string returnUrl = null)
+		public async Task<IActionResult> Index()
 		{
 			//Lay gio hang ra de xu ly
 			var cart = HttpContext.Session.Get<List<AddToCartVM>>("GioHang");
-			List<CartItemReponse> cartItemReponses = new List<CartItemReponse>();
 
 			//lay thong tin nguoi dung
 			var taikhoanID = HttpContext.Session.GetString("UserId");
@@ -46,14 +36,10 @@ namespace MuInMVC.Controllers
 			}
 
 			var token = HttpContext.Session.GetString("JWToken");
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Account/" + taikhoanID).Result;
-			UserInfoDto userInfo = new UserInfoDto();
 
-			if (response.IsSuccessStatusCode)
+			var userInfo = _userService.GetUserInfo(token, taikhoanID);
+			if (userInfo != null)
 			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				userInfo = JsonConvert.DeserializeObject<UserInfoDto>(data);
 				CheckoutVM model = new CheckoutVM
 				{
 					UserId = userInfo.UserID,
@@ -64,45 +50,23 @@ namespace MuInMVC.Controllers
 				};
 
 				//Lay thong tin cart
-				using (var client = new HttpClient())
+				string cartData = JsonConvert.SerializeObject(cart);
+				var cartReponse = _cartService.GetCartData(cartData);
+				if (cartReponse == null)
 				{
-					string cartData = JsonConvert.SerializeObject(cart);
-					StringContent content = new StringContent(cartData, Encoding.UTF8, "application/json");
-					HttpResponseMessage cartResponse = _httpClient.PostAsync(_httpClient.BaseAddress + "/Cart", content).Result;
-					if (cartResponse.IsSuccessStatusCode)
-					{
-						string result = cartResponse.Content.ReadAsStringAsync().Result;
-						cartItemReponses = JsonConvert.DeserializeObject<List<CartItemReponse>>(result);
-					}
-					ViewBag.cartItems = cartItemReponses;
+					return View("Error");
 				}
+				ViewBag.cartItems = cartReponse;
 				return View(model);
 			}
-			else
-			{
-				return RedirectToAction("Login", "Account");
-			}
-			//ViewData["lsTinhThanh"] = new SelectList(_context.Locations.Where(x => x.Levels == 1).OrderBy(x => x.Type).ToList(), "Location", "Name");
+			return RedirectToAction("Login", "Account");
 		}
 
 		public async Task<IActionResult> Checkout()
 		{
 			var cart = HttpContext.Session.Get<List<AddToCartVM>>("GioHang");
-			List<CartItemReponse> cartItemReponses = new List<CartItemReponse>();
-			OrderDto orderResponse = new OrderDto();
-			using (var client = new HttpClient())
-			{
-				string cartData = JsonConvert.SerializeObject(cart);
-				StringContent content = new StringContent(cartData, Encoding.UTF8, "application/json");
-				HttpResponseMessage cartResponse = _httpClient.PostAsync(_httpClient.BaseAddress + "/Cart", content).Result;
-				if (cartResponse.IsSuccessStatusCode)
-				{
-					string result = cartResponse.Content.ReadAsStringAsync().Result;
-					cartItemReponses = JsonConvert.DeserializeObject<List<CartItemReponse>>(result);
-				}
-			}
-
-			//Submit Cart
+			string cartData = JsonConvert.SerializeObject(cart);
+			var cartItemReponses = _cartService.GetCartData(cartData);
 			var token = HttpContext.Session.GetString("JWToken");
 
 			if (string.IsNullOrEmpty(token))
@@ -110,38 +74,32 @@ namespace MuInMVC.Controllers
 				TempData["Message"] = "You need to login to comment";
 				return RedirectToPage("Login");
 			}
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 			string dataCart = JsonConvert.SerializeObject(cartItemReponses);
-			StringContent contentRequest = new StringContent(dataCart, Encoding.UTF8, "application/json");
-			HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Checkout", contentRequest).Result;
-			if (response.IsSuccessStatusCode)
+			bool resultCheckout = _checkoutService.CheckOut(token, dataCart);
+			if (resultCheckout)
 			{
 				HttpContext.Session.Set<List<AddToCartVM>>("GioHang", new List<AddToCartVM>());
 				return RedirectToAction("Success");
 			}
 			else
 			{
-				TempData["Message"] = await response.Content.ReadAsStringAsync();
+				TempData["Message"] = "Sorry! Something wrong";
 				return View();
 			}
 		}
 
 		public async Task<ActionResult> Success()
-
 		{
-			List<OrderFullDto> orders = new List<OrderFullDto>();
 			var token = HttpContext.Session.GetString("JWToken");
 			if (string.IsNullOrEmpty(token))
 			{
 				TempData["Message"] = "You need to login to comment";
 				return RedirectToPage("Login");
 			}
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/User").Result;
-			if (response.IsSuccessStatusCode)
+			var orders = _orderService.GetOrderByUser(token);
+			if (orders == null)
 			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				orders = JsonConvert.DeserializeObject<List<OrderFullDto>>(data);
+				return View("Error");
 			}
 			OrderFullDto orderSuccess = orders.OrderByDescending(x => x.CreateDate).FirstOrDefault();
 			return View(orderSuccess);

@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MuInMVC.Helpers;
 using MuInMVC.Interfaces;
 using MuInShared.Cart;
 using MuInShared.Comment;
 using MuInShared.Helpers;
-using MuInShared.ProductSku;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace MuInMVC.Controllers
@@ -18,12 +14,14 @@ namespace MuInMVC.Controllers
 		private readonly HttpClient _httpClient;
 		private readonly IProductService _productService;
 		private readonly ICategoryService _categoryService;
-		public ProductController(IProductService productService, ICategoryService categoryService)
+		private readonly ICommentService _commentService;
+		private readonly IProductSkuService _productSkuService;
+		public ProductController(IProductService productService, ICategoryService categoryService, ICommentService commentService, IProductSkuService productSkuService)
 		{
-			_httpClient = new HttpClient();
-			_httpClient.BaseAddress = baseAddress;
 			_productService = productService;
 			_categoryService = categoryService;
+			_commentService = commentService;
+			_productSkuService = productSkuService;
 		}
 
 		public IActionResult Index()
@@ -47,7 +45,7 @@ namespace MuInMVC.Controllers
 			if (productFullDto.ProductSkuDtos != null)
 			{
 				var colors = new SelectList(productFullDto.ProductSkuDtos
-					.Where(p => p.ColorDto != null) // Ensure ColorDto is not null
+					.Where(p => p.ColorDto != null)
 					.Select(p => new { p.ColorDtoId, Name = p.ColorDto.ColorName }), "ColorDtoId", "Name");
 
 				ViewData["Colors"] = colors;
@@ -82,17 +80,14 @@ namespace MuInMVC.Controllers
 				TempData["Message"] = "You need to login to comment";
 				return RedirectToAction("ProductDetail", new { id = productId });
 			}
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-			string data = JsonConvert.SerializeObject(requestCommentDto);
-			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-			HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Comment/" + productId, content).Result;
-			if (response.IsSuccessStatusCode)
+			string result = await _commentService.PostComment(token, productId, requestCommentDto);
+			if (result == "Success")
 			{
 				return RedirectToAction("ProductDetail", new { id = productId });
 			}
 			else
 			{
-				TempData["Message"] = await response.Content.ReadAsStringAsync();
+				TempData["Message"] = result;
 				return RedirectToAction("ProductDetail", new { id = productId });
 			}
 		}
@@ -107,23 +102,9 @@ namespace MuInMVC.Controllers
 			return View("Index", productList.Data);
 		}
 
-		public async Task<IActionResult> ChangeColor(int? productId, int? colorId)
+		public async Task<IActionResult> ChangeColor(int productId, int colorId)
 		{
-			ProductSkuDto productSkuDto = new ProductSkuDto();
-			var data = new
-			{
-				ProductId = productId,
-				ColorId = colorId,
-			};
-
-			var queryString = QueryStringHelper.ToQueryString(data);
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductSku" + queryString).Result;
-
-			if (response.IsSuccessStatusCode)
-			{
-				string result = response.Content.ReadAsStringAsync().Result;
-				productSkuDto = JsonConvert.DeserializeObject<ProductSkuDto>(result);
-			}
+			var productSkuDto = _productSkuService.GetProductSkuDto(productId, colorId);
 			return Json(productSkuDto);
 		}
 	}
