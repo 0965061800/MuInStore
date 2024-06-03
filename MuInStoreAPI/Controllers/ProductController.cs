@@ -113,7 +113,7 @@ namespace MuInStoreAPI.Controllers
 					await _uow.ProductSkuRepository.Create(newProductSku);
 					await _uow.Save();
 					await _uow.CommitAsync();
-					return Ok(newProduct);
+					return Ok();
 				}
 				catch (Exception ex)
 				{

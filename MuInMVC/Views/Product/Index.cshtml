@@ -28,7 +28,6 @@
 				<div class="product-filters">
 					<ul>
 						<li class="active" data-filter="*">All</li>
-						@* <li data-filter=".strawberry">Strawberry</li> *@
 						@foreach (var cat in (List<CategoryDto>)ViewData["Categories"])
 						{
 							<li><a asp-controller="Category" asp-action="Index" asp-route-id="@cat.CatId">@cat.CatName</a></li>

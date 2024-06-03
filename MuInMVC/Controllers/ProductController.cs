@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MuInMVC.Helpers;
-using MuInShared;
+using MuInMVC.Interfaces;
 using MuInShared.Cart;
-using MuInShared.Category;
 using MuInShared.Comment;
 using MuInShared.Helpers;
-using MuInShared.Product;
 using MuInShared.ProductSku;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -18,28 +16,22 @@ namespace MuInMVC.Controllers
 	{
 		Uri baseAddress = new Uri("https://localhost:7137/api");
 		private readonly HttpClient _httpClient;
-		public ProductController()
+		private readonly IProductService _productService;
+		private readonly ICategoryService _categoryService;
+		public ProductController(IProductService productService, ICategoryService categoryService)
 		{
 			_httpClient = new HttpClient();
 			_httpClient.BaseAddress = baseAddress;
+			_productService = productService;
+			_categoryService = categoryService;
 		}
 
 		public IActionResult Index()
 		{
-			ReponseModel<List<ProductDto>> productList = new();
-			List<CategoryDto> categoryList = new();
-
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product").Result;
-			HttpResponseMessage catResponse = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category").Result;
-
-			if (response.IsSuccessStatusCode)
-			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				productList = JsonConvert.DeserializeObject<ReponseModel<List<ProductDto>>>(data);
-
-				string catData = catResponse.Content.ReadAsStringAsync().Result;
-				categoryList = JsonConvert.DeserializeObject<List<CategoryDto>>(catData);
-			}
+			ProductQueryObject query = new ProductQueryObject();
+			var productList = _productService.GetProducts(query);
+			if (productList == null) return View("Error");
+			var categoryList = _categoryService.GetCategories();
 			ViewData["Categories"] = categoryList;
 			return View(productList.Data);
 		}
@@ -47,13 +39,9 @@ namespace MuInMVC.Controllers
 
 		public IActionResult ProductDetail(int id)
 		{
-			ProductFullDto productFullDto = new ProductFullDto();
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product/" + id).Result;
-			if (response.IsSuccessStatusCode)
-			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				productFullDto = JsonConvert.DeserializeObject<ProductFullDto>(data);
-			}
+			var productFullDto = _productService.GetProductById(id);
+			if (productFullDto == null) return View("Error");
+
 			ViewBag.ProductName = productFullDto.ProductName;
 
 			if (productFullDto.ProductSkuDtos != null)
@@ -112,23 +100,9 @@ namespace MuInMVC.Controllers
 		[HttpPost]
 		public IActionResult Filter(ProductQueryObject query)
 		{
-			ReponseModel<List<ProductDto>> productList = new();
-			List<CategoryDto> categoryList = new();
-
-			var queryString = QueryStringHelper.ToQueryString(query);
-
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product" + queryString).Result;
-
-			HttpResponseMessage catResponse = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category").Result;
-
-			if (response.IsSuccessStatusCode)
-			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				productList = JsonConvert.DeserializeObject<ReponseModel<List<ProductDto>>>(data);
-
-				string catData = catResponse.Content.ReadAsStringAsync().Result;
-				categoryList = JsonConvert.DeserializeObject<List<CategoryDto>>(catData);
-			}
+			var productList = _productService.GetProducts(query);
+			if (productList == null) return View("Error");
+			var categoryList = _categoryService.GetCategories();
 			ViewData["Categories"] = categoryList;
 			return View("Index", productList.Data);
 		}

@@ -1,33 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
+using MuInMVC.Interfaces;
 using MuInMVC.Models;
-using MuInShared;
-using MuInShared.Product;
-using Newtonsoft.Json;
+using MuInShared.Helpers;
 using System.Diagnostics;
 
 namespace MuInMVC.Controllers
 {
 	public class HomeController : Controller
 	{
-		Uri baseAddress = new Uri("https://localhost:7137/api");
-		private readonly HttpClient _httpClient;
 
-		public HomeController()
+		private readonly IProductService _productService;
+
+
+		public HomeController(IProductService productService)
 		{
-			_httpClient = new HttpClient();
-			_httpClient.BaseAddress = baseAddress;
+			_productService = productService;
 		}
 
 		public IActionResult Index()
 		{
 			ViewBag.UserName = HttpContext.Session.GetString("UserName");
-			ReponseModel<List<ProductDto>> productList = new();
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Product?bestSeller=true").Result;
-			if (response.IsSuccessStatusCode)
+			ProductQueryObject query = new ProductQueryObject
 			{
-				string data = response.Content.ReadAsStringAsync().Result;
-				productList = JsonConvert.DeserializeObject<ReponseModel<List<ProductDto>>>(data);
-			}
+				BestSeller = true
+			};
+			var productList = _productService.GetProducts(query);
+			if (productList == null) return View("Error");
 			ViewData["BestSellerProducts"] = productList.Data.Take(3).ToList();
 			return View();
 		}

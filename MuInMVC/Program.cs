@@ -1,3 +1,6 @@
+using MuInMVC.Interfaces;
+using MuInMVC.Services;
+
 namespace MuInMVC
 {
 	public class Program
@@ -5,6 +8,11 @@ namespace MuInMVC
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			builder.Services.AddScoped<IProductService, ProductService>();
+			builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+
 			builder.Services.AddRazorPages();
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
