@@ -24,8 +24,8 @@ namespace MuInShared.Product
 		[StringLength(120)]
 		public string Alias { get; set; } = string.Empty;
 		public bool Active { get; set; } = true;
-		public string? productImage { get; set; }
-		public string? ImageName { get; set; }
+		public string productImage { get; set; } = string.Empty;
+		public string ImageName { get; set; } = string.Empty;
 		public int? FeatureId { get; set; }
 		public int? BrandId { get; set; }
 		public int? CategoryId { get; set; }

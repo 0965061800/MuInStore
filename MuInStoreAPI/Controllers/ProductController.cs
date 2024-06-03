@@ -107,6 +107,8 @@ namespace MuInStoreAPI.Controllers
 						UnitPrice = requestProductDto.ProductPrice,
 						Sku = requestProductDto.ProductCode,
 						UnitInStock = 10,
+						ImageName = requestProductDto.ImageName,
+						skuImage = requestProductDto.productImage
 					};
 					await _uow.ProductSkuRepository.Create(newProductSku);
 					await _uow.Save();
