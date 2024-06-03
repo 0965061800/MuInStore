@@ -31,9 +31,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
-				<div class="single-product-img">
-					@* <img src="~/assets/img/products/product-img-5.jpg" alt=""> *@
-					<img src=@imageUrl alt="Product Image" />
+				<div class="single-product-img product-image">
+					<img src=@productImage alt="Product Image" class="productImage" />
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -50,18 +49,18 @@
 							0/5<i class="fas fa-star text-warning"></i>
 						</p>
 					}
-					<p class="single-product-pricing"><span>Say no with sale</span> @Model.ProductPrice.ToString("#,##0") VNĐ</p>
+					<p class="single-product-pricing price"> @Model.ProductPrice.ToString("#,##0") VNĐ</p>
 					<p>@Model.Description</p>
 					<div class="single-product-form">
 						<form id="addToCartForm" asp-controller="Cart" asp-action="AddToCart" method="Post">
-							<input type="hidden" asp-for="@AddToCartVM.ProductId" />
+							<input type="hidden" asp-for="@AddToCartVM.ProductId" class="ProductId" />
 							<div class="row gx-10">
 								<div class="col-2">
 									<input type="number" placeholder="0" asp-for="@AddToCartVM.Quantity" id="quantityInput" class="form-control">
 								</div>
 								<div class="col-4">
-									<select asp-for="@AddToCartVM.ColorId" class="form-control" asp-items="ViewBag.Colors" id="colorSelect">
-										<option value="" selected>Choose Color</option>
+									<select asp-for="@AddToCartVM.ColorId" class="form-control color" asp-items="ViewBag.Colors" id="colorSelect">
+										<option value="" selected disabled>Choose Color</option>
 									</select>
 								</div>
 							</div>
@@ -107,15 +106,6 @@
 							</div>
 						</div>
 					}
-				@* <div class="single-comment-body">
-					<div class="comment-user-avater">
-						<img src="~/assets/img/avaters/avatar2.png" alt="">
-					</div>
-					<div class="comment-text-body">
-						<h4>Addy Aoe <span class="comment-date">May 12, 2020</span></h4>
-						<p>Nunc risus ex, tempus quis purus ac, tempor consequat ex. Vivamus sem magna, maximus at est id, maximus aliquet nunc. Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus Suspendisse lacinia velit a eros porttitor, in interdum ante faucibus.</p>
-					</div>
-				</div> *@
 			</div>	
 			}
 		</div>
@@ -136,16 +126,6 @@
 				<p>
 					<input asp-for="@RequestCommentDto.Rate" type="number"/> /5
 				</p>
-
-@* 				<div class="rating d-flex justify-content-center">
-					@for (int i = 1; i <= 5; i++)
-					{
-						<input type="radio" id="star@i" name="Rating" value="@i" class="d-none" />
-						<label for="star@i" class="star-label" title="Rate @i stars">
-							<i class="fa fa-star"></i>
-						</label>
-					}
-				</div> *@
 
 				<p><textarea asp-for="@RequestCommentDto.Content" cols="30" rows="10" placeholder="Bình luận tại đây"></textarea></p>
 				<p><input type="submit" value="Đăng"></p>
@@ -203,25 +183,36 @@
 	</div>
 </div>
 <!-- end more products -->
-@* <style>
-	.rating {
-		direction: rtl;
-	}
 
-	.star-label {
-		cursor: pointer;
-		font-size: 2rem;
-		color: #ccc;
-	}
-	.star-label:hover,
-	.star-label:hover ~ .star-label,
-	.rating input:checked ~ .star-label {
-		color: #FFD700;
-	}
-</style>
- *@
  @section Scripts {
 	<script>
+		$(document).ready(function () {
+			console.log("Document is ready");
+			$(".color").change(function () {
+				console.log("Color changed");
+				var productId = $('.ProductId').val();
+				var colorId = $('.color').val();  // Assuming the color input has the class "color"
+				$.ajax({
+					url: '/Product/ChangeColor',
+					type: "POST",
+					dataType: "JSON",
+					data: {
+						productId: productId,
+						colorId: colorId
+					},
+					success: function (results) {
+						var priceInVND = results.unitPrice; 
+						console.log(results.skuImage)
+						$(".price").html(formatVND(priceInVND));
+						$(".productImage").attr("src", results.skuImage);
+					},
+					error: function (xhr) {
+						alert("An error occurred: " + xhr.status + " " + xhr.statusText);
+					}
+				});
+			});
+		});
+
 		document.getElementById('addToCartForm').addEventListener('submit', function (event) {
 			var quantity = document.getElementById('quantityInput').value;
 			var color = document.getElementById('colorSelect').value;
@@ -238,5 +229,9 @@
 				return;
 			}
 		});
+
+		function formatVND(priceInVND) {
+			return (priceInVND.toLocaleString('vi-VN') + ' VNĐ').replaceAll('.', ',');;
+		}
 	</script>
  }

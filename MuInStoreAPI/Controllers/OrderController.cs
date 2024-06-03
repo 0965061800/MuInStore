@@ -52,7 +52,7 @@ namespace MuInStoreAPI.Controllers
 			var orders = await _uow.OrderRepository.GetOrderByUserName(username);
 			if (orders != null)
 			{
-				var orderDto = orders.Select(o => o.ToOrderDto()).ToList();
+				var orderDto = orders.Select(o => o.ToOrderFullDto()).ToList();
 				return Ok(orderDto);
 			}
 			else

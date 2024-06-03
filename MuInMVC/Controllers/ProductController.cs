@@ -7,6 +7,7 @@ using MuInShared.Category;
 using MuInShared.Comment;
 using MuInShared.Helpers;
 using MuInShared.Product;
+using MuInShared.ProductSku;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -130,6 +131,26 @@ namespace MuInMVC.Controllers
 			}
 			ViewData["Categories"] = categoryList;
 			return View("Index", productList.Data);
+		}
+
+		public async Task<IActionResult> ChangeColor(int? productId, int? colorId)
+		{
+			ProductSkuDto productSkuDto = new ProductSkuDto();
+			var data = new
+			{
+				ProductId = productId,
+				ColorId = colorId,
+			};
+
+			var queryString = QueryStringHelper.ToQueryString(data);
+			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductSku" + queryString).Result;
+
+			if (response.IsSuccessStatusCode)
+			{
+				string result = response.Content.ReadAsStringAsync().Result;
+				productSkuDto = JsonConvert.DeserializeObject<ProductSkuDto>(result);
+			}
+			return Json(productSkuDto);
 		}
 	}
 }

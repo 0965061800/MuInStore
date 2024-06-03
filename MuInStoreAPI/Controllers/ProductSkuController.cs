@@ -3,6 +3,7 @@ using MuInShared.ProductSku;
 using MuInStoreAPI.Mappers;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
+using System.Linq.Expressions;
 
 namespace MuInStoreAPI.Controllers
 {
@@ -28,6 +29,20 @@ namespace MuInStoreAPI.Controllers
 			var productSkuDto = productSku.ToProductSkuFullDto();
 			return Ok(productSkuDto);
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetByColorAndProduct(int? ProductId, int? ColorId)
+		{
+			Expression<Func<ProductSku, bool>> filter = p => (ProductId == 0 || p.ProductId == ProductId) && (ColorId == 0 || p.ColorId == ColorId);
+			var productSku = await _uow.ProductSkuRepository.GetAll(filter, includeProperties: "Color");
+			if (productSku == null)
+			{
+				return NotFound();
+			}
+			ProductSkuDto productSkuDto = productSku.FirstOrDefault().ToProductSkuDto();
+			return Ok(productSkuDto);
+		}
+
 		[HttpPost]
 		public async Task<ActionResult> CreateProductSku([FromBody] RequestProductSkuDto requestproductSkudto)
 		{

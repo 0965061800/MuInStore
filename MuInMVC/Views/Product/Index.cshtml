@@ -31,7 +31,7 @@
 						@* <li data-filter=".strawberry">Strawberry</li> *@
 						@foreach (var cat in (List<CategoryDto>)ViewData["Categories"])
 						{
-							<li><a asp-controller="Category" asp-route-id="@cat.CatId">@cat.CatName</a></li>
+							<li><a asp-controller="Category" asp-action="Index" asp-route-id="@cat.CatId">@cat.CatName</a></li>
 						}
 					</ul>
 				</div>
