@@ -34,8 +34,6 @@ namespace MuInMVC.Controllers.Components
 				string brandData = brandReponse.Content.ReadAsStringAsync().Result;
 				brands = JsonConvert.DeserializeObject<List<BrandDto>>(brandData);
 			}
-			//ViewBag.BrandList = new SelectList(brands.Select(b => new SelectListItem { Value = b.Alias, Text = b.BrandName })).ToList();
-			//ViewBag.BrandList = new SelectList(features.Select(b => new SelectListItem { Value = b.Alias, Text = b.FeatureName })).ToList();
 			ViewBag.BrandList = new SelectList(brands.Select(b => new { BrandAlias = b.Alias, Name = b.BrandName }), "BrandAlias", "Name");
 			ViewBag.FeatureList = new SelectList(features.Select(f => new { FeatureAlias = f.Alias, Name = f.FeatureName }), "FeatureAlias", "Name");
 			return View(query);

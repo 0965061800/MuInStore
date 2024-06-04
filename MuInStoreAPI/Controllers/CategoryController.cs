@@ -28,7 +28,7 @@ namespace MuInStoreAPI.Controllers
 			return Ok(categorieDtos);
 		}
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Category>> GetCategoryById(int id)
+		public async Task<ActionResult<CategoryFullDto>> GetCategoryById(int id)
 		{
 			var category = await _uow.CategoryRepository.GetByIdAsync(id);
 			if (category == null)

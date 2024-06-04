@@ -10,8 +10,6 @@ namespace MuInMVC.Controllers
 {
 	public class ProductController : Controller
 	{
-		Uri baseAddress = new Uri("https://localhost:7137/api");
-		private readonly HttpClient _httpClient;
 		private readonly IProductService _productService;
 		private readonly ICategoryService _categoryService;
 		private readonly ICommentService _commentService;
