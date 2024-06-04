@@ -1,7 +1,7 @@
 ﻿namespace MuInMVC.Interfaces
 {
-	public interface ICheckoutService
-	{
-		bool CheckOut(string token, string request);
-	}
+    public interface ICheckoutService
+    {
+        bool CheckOut(string token, string request);
+    }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MuInShared.Cart;
+using MuInShared.Checkout;
 using MuInStoreAPI.Extensions;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
@@ -22,8 +23,10 @@ namespace MuInStoreAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Checkout([FromBody] List<CartItemReponse> cart)
+        public async Task<IActionResult> Checkout([FromBody] RequestCheckout requestCheckout)
         {
+            List<CartItemReponse> cart = requestCheckout.cart;
+            CheckoutVM userInfo = requestCheckout.userInfo;
             try
             {
                 var username = User.GetUserName();
@@ -31,6 +34,11 @@ namespace MuInStoreAPI.Controllers
                 await _uow.BeginTransactionAsync();
                 try
                 {
+                    AppUser user = _userManager.Users.First(x => x.UserName == username);
+                    if (user.Address == null && userInfo?.Address != null) user.Address = userInfo.Address;
+                    if (user.Phone == null && userInfo?.Phone != null) user.Phone = userInfo.Phone;
+                    if (user.FirstName == "" && userInfo?.FullName != null) user.FirstName = userInfo.FullName;
+                    await _userManager.UpdateAsync(user);
 
                     Payment newPayment = new Payment
                     {
@@ -43,7 +51,7 @@ namespace MuInStoreAPI.Controllers
                     Order newOrder = new Order
                     {
                         SumTotal = Convert.ToInt32(cart.Sum(x => x.TotalMoney)),
-                        Address = appUser.Address,
+                        Address = userInfo.Address,
                         PaymentId = newPayment.PaymentId,
                         AppUserId = appUser.Id,
                     };
@@ -79,7 +87,6 @@ namespace MuInStoreAPI.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
     }
 }

@@ -39,12 +39,12 @@
 							<div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample">
 								<div class="card-body">
 									<div class="billing-address-form">
-										<form action="index.html">
+										<form asp-action="Checkout" method="post" id="userForm">
+											<input asp-for="UserId" hidden/>
 											<p><input type="text" placeholder="Name" asp-for="FullName"></p>
 											<p><input type="email" placeholder="Email" asp-for="Email"></p>
 											<p><input type="text" placeholder="Address" asp-for="Address"></p>
 											<p><input type="tel" placeholder="Phone" asp-for="Phone"></p>
-											@* <p><textarea name="bill" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p> *@
 										</form>
 									</div>
 								</div>
@@ -98,7 +98,9 @@
 							</tbody>
 						}
 					</table>
-					<a asp-action="Checkout" class="boxed-btn">Place Order</a>
+					<button form="userForm" asp-action="Checkout">
+						<a class="boxed-btn">Place Order</a>
+					</button>
 				</div>
 			</div>
 		</div>
