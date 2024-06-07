@@ -9,56 +9,56 @@ using MuInStoreAPI.UnitOfWork;
 
 namespace MuInStoreAPI.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class OrderController : ControllerBase
-	{
-		private readonly IUnitOfWork _uow;
-		private readonly UserManager<AppUser> _userManager;
-		public OrderController(IUnitOfWork uow, UserManager<AppUser> userManager)
-		{
-			_uow = uow;
-			_userManager = userManager;
-		}
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
-		{
-			var orders = await _uow.OrderRepository.GetAllOrderAsync();
-			if (orders == null)
-			{
-				return NotFound("No Orders in your database");
-			}
-			var orderDtos = orders.Select(o => o.ToOrderDto());
-			return Ok(orderDtos);
-		}
-		[HttpGet("{id:int}")]
-		public async Task<ActionResult<Order>> GetOrderById(int id)
-		{
-			var order = await _uow.OrderRepository.GetOrderById(id);
-			if (order == null)
-			{
-				return NotFound("No order found");
-			}
-			OrderFullDto orderDto = order.ToOrderFullDto();
-			return Ok(orderDto);
-		}
+    [ApiController]
+    [Route("api/[controller]")]
+    public class OrderController : ControllerBase
+    {
+        private readonly IUnitOfWork _uow;
+        private readonly UserManager<AppUser> _userManager;
+        public OrderController(IUnitOfWork uow, UserManager<AppUser> userManager)
+        {
+            _uow = uow;
+            _userManager = userManager;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
+        {
+            var orders = await _uow.OrderRepository.GetAllOrderAsync();
+            if (orders == null)
+            {
+                return NotFound("No Orders in your database");
+            }
+            var orderDtos = orders.OrderByDescending(x => x.CreateDate).Select(o => o.ToOrderDto());
+            return Ok(orderDtos);
+        }
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Order>> GetOrderById(int id)
+        {
+            var order = await _uow.OrderRepository.GetOrderById(id);
+            if (order == null)
+            {
+                return NotFound("No order found");
+            }
+            OrderFullDto orderDto = order.ToOrderFullDto();
+            return Ok(orderDto);
+        }
 
-		[HttpGet]
-		[Route("/api/Order/User")]
-		[Authorize]
-		public async Task<ActionResult> GetOrderByName()
-		{
-			var username = User.GetUserName();
-			var orders = await _uow.OrderRepository.GetOrderByUserName(username);
-			if (orders != null)
-			{
-				var orderDto = orders.Select(o => o.ToOrderFullDto()).ToList();
-				return Ok(orderDto);
-			}
-			else
-			{
-				return NotFound();
-			}
-		}
-	}
+        [HttpGet]
+        [Route("/api/Order/User")]
+        [Authorize]
+        public async Task<ActionResult> GetOrderByName()
+        {
+            var username = User.GetUserName();
+            var orders = await _uow.OrderRepository.GetOrderByUserName(username);
+            if (orders != null)
+            {
+                var orderDto = orders.Select(o => o.ToOrderFullDto()).ToList();
+                return Ok(orderDto);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+    }
 }

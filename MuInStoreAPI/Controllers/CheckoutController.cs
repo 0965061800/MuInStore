@@ -75,7 +75,7 @@ namespace MuInStoreAPI.Controllers
                     }
                     await _uow.Save();
                     await _uow.CommitAsync();
-                    return Ok();
+                    return Ok("Success");
                 }
                 catch (Exception ex)
                 {
