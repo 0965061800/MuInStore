@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MuInShared;
 using MuInShared.Helpers;
 using MuInShared.Product;
@@ -81,6 +82,7 @@ namespace MuInStoreAPI.Controllers
             return Ok(productDto);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct(RequestProductDto requestProductDto)
         {
             try

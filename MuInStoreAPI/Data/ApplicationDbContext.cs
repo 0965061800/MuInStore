@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MuInStore.Data.SeedData;
 using MuInStoreAPI.Models;
-using MusInStore.Data.SeedData;
 
 namespace MuInStoreAPI.Data
 {
@@ -27,16 +25,6 @@ namespace MuInStoreAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.SeedCategory();
-            modelBuilder.SeedBrand();
-            modelBuilder.SeedFeature();
-            modelBuilder.SeedProduct();
-            modelBuilder.SeedColor();
-            modelBuilder.SeedProductSkuData();
-            modelBuilder.SeedProductImageData();
-            modelBuilder.SeedLocalData();
-            modelBuilder.SeedPayStatusData();
             modelBuilder.Entity<UserLocation>(x => x.HasKey(p => new { p.AppUserId, p.LocationId }));
 
             modelBuilder.Entity<UserLocation>().HasOne(u => u.AppUser).WithMany(u => u.UserLocations).HasForeignKey(p => p.AppUserId);

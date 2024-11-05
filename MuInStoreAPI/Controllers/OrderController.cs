@@ -21,18 +21,18 @@ namespace MuInStoreAPI.Controllers
             _userManager = userManager;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrder()
         {
             var orders = await _uow.OrderRepository.GetAllOrderAsync();
             if (orders == null)
             {
                 return NotFound("No Orders in your database");
             }
-            var orderDtos = orders.OrderByDescending(x => x.CreateDate).Select(o => o.ToOrderDto());
+            var orderDtos = orders.OrderByDescending(x => x.CreateDate).Select(o => o.ToOrderDto()).ToList();
             return Ok(orderDtos);
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Order>> GetOrderById(int id)
+        public async Task<ActionResult<OrderFullDto>> GetOrderById(int id)
         {
             var order = await _uow.OrderRepository.GetOrderById(id);
             if (order == null)

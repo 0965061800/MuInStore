@@ -16,14 +16,14 @@ namespace MuInStoreAPI.Controllers
             _uow = uow;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetAllBrands()
+        public async Task<ActionResult<List<BrandDto>>> GetAllBrands()
         {
             var brands = await _uow.BrandRepository.GetAll();
             if (brands == null)
             {
                 return NotFound("No Brand in your database");
             }
-            var brandDtos = brands.Select(x => x.ToBrandDto());
+            var brandDtos = brands.Select(x => x.ToBrandDto()).ToList();
             return Ok(brandDtos);
         }
         [HttpGet("{id}")]
