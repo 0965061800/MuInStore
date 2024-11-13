@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared.ProductSku;
-using MuInStoreAPI.Models;
 using System.Linq.Expressions;
 
 namespace MuInStore.Test.ApiController

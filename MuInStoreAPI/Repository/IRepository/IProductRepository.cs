@@ -1,4 +1,4 @@
-﻿using MuInStoreAPI.Models;
+﻿using MuIn.Domain.Aggregates.ProductAggregate;
 using System.Linq.Expressions;
 
 namespace MuInStoreAPI.Repository.IRepository

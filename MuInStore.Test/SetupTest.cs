@@ -29,7 +29,6 @@ namespace MuInStore.Test
         protected readonly Mock<IProductRepository> _mockProductRepo;
         protected readonly Mock<IProductSkuRepository> _mockProductSkuRepo;
         protected readonly Mock<IBrandRepository> _mockBrandRepo;
-        protected readonly Mock<IFeatureRepository> _mockFeatureRepo;
         protected readonly Mock<IOrderRepository> _mockOrderRepo;
         protected readonly Mock<ICommentRepository> _mockCommentRepo;
         protected readonly Mock<IColorRepository> _mockColorRepo;
@@ -54,7 +53,6 @@ namespace MuInStore.Test
             _mockProductRepo = new Mock<IProductRepository>();
             _mockProductSkuRepo = new Mock<IProductSkuRepository>();
             _mockBrandRepo = new Mock<IBrandRepository>();
-            _mockFeatureRepo = new Mock<IFeatureRepository>();
             _mockOrderRepo = new Mock<IOrderRepository>();
             _mockCommentRepo = new Mock<ICommentRepository>();
             _mockColorRepo = new Mock<IColorRepository>();
@@ -74,7 +72,6 @@ namespace MuInStore.Test
             _mockUnitOfWork.Setup(x => x.ProductRepository).Returns(_mockProductRepo.Object);
             _mockUnitOfWork.Setup(x => x.ProductSkuRepository).Returns(_mockProductSkuRepo.Object);
             _mockUnitOfWork.Setup(x => x.BrandRepository).Returns(_mockBrandRepo.Object);
-            _mockUnitOfWork.Setup(x => x.FeatureRepository).Returns(_mockFeatureRepo.Object);
             _mockUnitOfWork.Setup(x => x.OrderRepository).Returns(_mockOrderRepo.Object);
             _mockUnitOfWork.Setup(x => x.CommentRepository).Returns(_mockCommentRepo.Object);
             _mockUnitOfWork.Setup(x => x.ColorRepository).Returns(_mockColorRepo.Object);

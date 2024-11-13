@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared.ProductSku;
 using MuInStoreAPI.Mappers;
-using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
 using System.Linq.Expressions;
 

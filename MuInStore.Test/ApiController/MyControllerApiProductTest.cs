@@ -1,11 +1,11 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared;
 using MuInShared.Helpers;
 using MuInShared.Product;
 using MuInStoreAPI.Mappers;
-using MuInStoreAPI.Models;
 using System.Linq.Expressions;
 
 namespace MuInStore.Test.ApiController
@@ -79,7 +79,6 @@ namespace MuInStore.Test.ApiController
 
             _mockCategoryRepo.Setup(r => r.CheckCategoryId(It.IsAny<int>())).ReturnsAsync(true);
             _mockBrandRepo.Setup(r => r.CheckBrandId(It.IsAny<int>())).ReturnsAsync(true);
-            _mockFeatureRepo.Setup(r => r.CheckFeatureId(It.IsAny<int>())).ReturnsAsync(true);
 
             // Act
             var result = await _productController.CreateProduct(requestProductDto);
@@ -102,7 +101,6 @@ namespace MuInStore.Test.ApiController
 
             _mockCategoryRepo.Setup(r => r.CheckCategoryId(It.IsAny<int>())).ReturnsAsync(true);
             _mockBrandRepo.Setup(r => r.CheckBrandId(It.IsAny<int>())).ReturnsAsync(true);
-            _mockFeatureRepo.Setup(r => r.CheckFeatureId(It.IsAny<int>())).ReturnsAsync(true);
 
             // Act
             var result = await _productController.UpdateProduct(product.ProductId, updateProductDto);

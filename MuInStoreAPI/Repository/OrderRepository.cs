@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MuInStoreAPI.Data;
+using MuIn.Infrastructure;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.Repository.IRepository;
 using System.Linq.Expressions;
@@ -8,8 +8,8 @@ namespace MuInStoreAPI.Repository
 {
     public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
-        private readonly ApplicationDbContext _context;
-        public OrderRepository(ApplicationDbContext dbContext) : base(dbContext)
+        private readonly MuInDbContext _context;
+        public OrderRepository(MuInDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }
@@ -33,14 +33,16 @@ namespace MuInStoreAPI.Repository
         }
         public async Task<List<Order>?> GetOrderByUserName(string userName)
         {
-            var order = await _context.Orders.Include(x => x.AppUser).Where(o => o.AppUser.UserName == userName).Include(x => x.Payment).ThenInclude(x => x.PayStatus).ToListAsync();
-            return order;
+            //var order = await _context.Orders.Include(x => x.AppUser).Where(o => o.AppUser.UserName == userName).Include(x => x.Payment).ThenInclude(x => x.PayStatus).ToListAsync();
+            //return order;
+            return null;
         }
 
         public async Task<Order?> GetOrderById(int id)
         {
-            var order = await _context.Orders.Where(o => o.OrderId == id).Include(o => o.AppUser).Include(o => o.Payment).ThenInclude(o => o.PayStatus).Include(o => o.OrderDetails).FirstOrDefaultAsync();
-            return order;
+            //var order = await _context.Orders.Where(o => o.OrderId == id).Include(o => o.AppUser).Include(o => o.Payment).ThenInclude(o => o.PayStatus).Include(o => o.OrderDetails).FirstOrDefaultAsync();
+            //return order;
+            return null;
         }
     }
 }

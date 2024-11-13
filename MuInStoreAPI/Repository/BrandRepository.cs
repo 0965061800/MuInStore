@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MuInStoreAPI.Data;
+using MuIn.Infrastructure;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.Repository.IRepository;
 
@@ -7,8 +7,8 @@ namespace MuInStoreAPI.Repository
 {
     public class BrandRepository : GenericRepository<Brand>, IBrandRepository
     {
-        private readonly ApplicationDbContext _context;
-        public BrandRepository(ApplicationDbContext dbContext) : base(dbContext)
+        private readonly MuInDbContext _context;
+        public BrandRepository(MuInDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }

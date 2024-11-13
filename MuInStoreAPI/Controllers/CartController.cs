@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared.Cart;
-using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
 using System.Linq.Expressions;
 
@@ -30,7 +30,7 @@ namespace MuInStoreAPI.Controllers
                 {
                     ProductId = item.ProductId,
                     ProductName = productSku.Product.ProductName,
-                    ProductImage = productSku.Images == null ? productSku.Images.FirstOrDefault().ImageUrl : "",
+                    //ProductImage = productSku.Images == null ? productSku.Images.FirstOrDefault().ImageUrl : "",
                     ProductSkuId = productSku.ProductSkuId,
                     UnitPrice = productSku.UnitPrice,
                     Amount = item.Quantity,

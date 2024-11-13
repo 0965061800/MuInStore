@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared;
 using MuInShared.Helpers;
 using MuInShared.Product;
 using MuInStoreAPI.Mappers;
-using MuInStoreAPI.Models;
 using MuInStoreAPI.UnitOfWork;
 using System.Linq.Expressions;
 
@@ -35,8 +35,7 @@ namespace MuInStoreAPI.Controllers
 
             Expression<Func<Product, bool>> filter = p =>
             (string.IsNullOrEmpty(query.BrandAlias) || p.Brand.Alias.Contains(query.BrandAlias)) &&
-            (string.IsNullOrEmpty(query.FeatureAlias) || p.Feature.Alias.Contains(query.FeatureAlias)) &&
-            (string.IsNullOrEmpty(query.CategoryAlias) || p.Category.Alias.Contains(query.CategoryAlias)) && (query.BrandId == 0 || p.BrandId == query.BrandId) && (query.CategoryId == 0 || p.CategoryId == null || categoryIds.Contains((int)p.CategoryId)) && (query.FeatureId == 0 || p.FeatureId == query.FeatureId) && (query.BestSeller == false || p.BestSeller == true);
+            (string.IsNullOrEmpty(query.CategoryAlias) || p.Category.Alias.Contains(query.CategoryAlias)) && (query.BrandId == 0 || p.BrandId == query.BrandId) && (query.CategoryId == 0 || p.CategoryId == null || categoryIds.Contains((int)p.CategoryId)) && (query.BestSeller == false || p.BestSeller == true);
 
             //Expression<Func<Product, bool>> filter = p => (query.CategoryId == 0 || p.CategoryId == null || categoryIds.Contains((int)p.CategoryId));
 
@@ -105,11 +104,6 @@ namespace MuInStoreAPI.Controllers
                         bool CheckBrand = await _uow.BrandRepository.CheckBrandId((int)newProduct.BrandId);
                         if (!CheckBrand) return BadRequest("No Brand Found");
                     }
-                    if (newProduct.FeatureId != null)
-                    {
-                        bool CheckFeature = await _uow.FeatureRepository.CheckFeatureId((int)newProduct.FeatureId);
-                        if (!CheckFeature) return BadRequest("No Feature Found");
-                    }
 
                     await _uow.ProductRepository.Create(newProduct);
                     await _uow.Save();
@@ -166,15 +160,9 @@ namespace MuInStoreAPI.Controllers
                     bool CheckBrand = await _uow.BrandRepository.CheckBrandId((int)updateProductDto.BrandId);
                     if (!CheckBrand) return BadRequest("No Brand Found");
                 }
-                if (updateProductDto.FeatureId != null)
-                {
-                    bool CheckFeature = await _uow.FeatureRepository.CheckFeatureId((int)updateProductDto.FeatureId);
-                    if (!CheckFeature) return BadRequest("No Feature Found");
-                };
 
                 await _uow.CategoryRepository.GetById(oldProduct.CategoryId);
                 await _uow.BrandRepository.GetById(oldProduct.BrandId);
-                await _uow.FeatureRepository.GetById(oldProduct.FeatureId);
 
                 Product newProduct = updateProductDto.UpdateToProduct(oldProduct);
                 await _uow.ProductRepository.Update(id, newProduct);

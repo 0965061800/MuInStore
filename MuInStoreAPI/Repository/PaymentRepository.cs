@@ -1,4 +1,4 @@
-﻿using MuInStoreAPI.Data;
+﻿using MuIn.Infrastructure;
 using MuInStoreAPI.Models;
 using MuInStoreAPI.Repository.IRepository;
 
@@ -6,8 +6,8 @@ namespace MuInStoreAPI.Repository
 {
     public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
     {
-        private readonly ApplicationDbContext _context;
-        public PaymentRepository(ApplicationDbContext dbContext) : base(dbContext)
+        private readonly MuInDbContext _context;
+        public PaymentRepository(MuInDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }

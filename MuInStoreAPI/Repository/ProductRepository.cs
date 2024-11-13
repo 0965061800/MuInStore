@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MuInStoreAPI.Data;
-using MuInStoreAPI.Models;
+using MuIn.Domain.Aggregates.ProductAggregate;
+using MuIn.Infrastructure;
 using MuInStoreAPI.Repository.IRepository;
 using System.Linq.Expressions;
 
@@ -8,8 +8,8 @@ namespace MuInStoreAPI.Repository
 {
     public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ProductRepository(ApplicationDbContext dbContext) : base(dbContext)
+        private readonly MuInDbContext _context;
+        public ProductRepository(MuInDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }
@@ -22,7 +22,6 @@ namespace MuInStoreAPI.Repository
                 .Where(x => x.ProductId == id)
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
-                .Include(x => x.Feature)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.AppUser)
                 .Include(x => x.ProductSkus)
