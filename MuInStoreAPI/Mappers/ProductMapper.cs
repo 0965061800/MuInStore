@@ -1,6 +1,5 @@
-﻿
-using MuIn.Domain.Aggregates.ProductAggregate;
-using MuInShared.Product;
+﻿using MuInShared.Product;
+using MuInStoreAPI.Models;
 
 namespace MuInStoreAPI.Mappers
 {

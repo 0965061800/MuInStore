@@ -393,8 +393,66 @@ namespace MuIn.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6798de1c-e67c-43a2-8327-2e299f8413cd", null, "User", "USER" },
-                    { "f34c0db5-f607-4347-a60c-7b7ccaa8e860", null, "Admin", "ADMIN" }
+                    { "31c15610-951b-4cd7-9528-4f7148711050", null, "Admin", "ADMIN" },
+                    { "6389555d-defd-416d-b768-cd1c113bd2f5", null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Brands",
+                columns: new[] { "BrandId", "Alias", "BrandImage", "BrandName" },
+                values: new object[,]
+                {
+                    { 1, "logitech", "images/brands/logitech.jpg", "Logitech" },
+                    { 2, "razer", "images/brands/razer.jpg", "Razer" },
+                    { 3, "apple", "images/brands/apple.jpg", "Apple" },
+                    { 4, "samsung", "images/brands/samsung.jpg", "Samsung" },
+                    { 5, "sony", "images/brands/sony.jpg", "Sony" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CatId", "Alias", "CatImage", "CatName", "CategoryCatId", "Description", "ImageName", "ParentCatId" },
+                values: new object[,]
+                {
+                    { 1, "computer-accessories", "images/categories/computer-accessories.jpg", "Computer Accessories", null, "Everything you need for your computer setup.", "computer-accessories.jpg", null },
+                    { 2, "keyboards", "images/categories/keyboards.jpg", "Keyboards", null, "A variety of keyboards for every need.", "keyboards.jpg", 1 },
+                    { 3, "mice-and-pointing-devices", "images/categories/mice.jpg", "Mice & Pointing Devices", null, "Mice, trackpads, and other pointing devices.", "mice.jpg", 1 },
+                    { 4, "smartphones", "images/categories/smartphones.jpg", "Smartphones", null, "Latest smartphones from top brands.", "smartphones.jpg", null },
+                    { 5, "laptops", "images/categories/laptops.jpg", "Laptops", null, "Laptops for work, gaming, and casual use.", "laptops.jpg", null },
+                    { 6, "headphones", "images/categories/headphones.jpg", "Headphones", null, "Wired and wireless headphones for all needs.", "headphones.jpg", null },
+                    { 7, "tablets", "images/categories/tablets.jpg", "Tablets", null, "Tablets for personal and professional use.", "tablets.jpg", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Colors",
+                columns: new[] { "ColorId", "ColorName" },
+                values: new object[,]
+                {
+                    { 1, "Red" },
+                    { 2, "Black" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "Active", "Alias", "BestSeller", "BrandId", "CategoryId", "CreatAt", "Description", "ImageName", "ProductCode", "ProductImage", "ProductName", "ProductPrice", "Sale", "Specifications", "VideoLink" },
+                values: new object[,]
+                {
+                    { 1, true, "logitech-wireless-mouse", true, 1, 1, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7362), null, "mouse.jpg", "WM123", "images/products/mouse.jpg", "Logitech Wireless Mouse", 25.99m, 0.15m, null, null },
+                    { 2, true, "razer-gaming-keyboard", true, 2, 2, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7367), null, "keyboard.jpg", "RK123", "images/products/keyboard.jpg", "Razer Mechanical Gaming Keyboard", 99.99m, 0.10m, null, null },
+                    { 3, true, "apple-magic-mouse", false, 3, 3, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7370), null, "apple-magic-mouse.jpg", "AMM100", "images/products/apple-magic-mouse.jpg", "Apple Magic Mouse", 79.99m, 0.05m, null, null },
+                    { 4, true, "samsung-galaxy-s21", true, 4, 4, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7373), null, "galaxy-s21.jpg", "SGS21", "images/products/galaxy-s21.jpg", "Samsung Galaxy S21", 799.99m, 0.10m, null, null },
+                    { 5, true, "apple-macbook-air-m1", true, 3, 5, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7376), null, "macbook-air.jpg", "MBA-M1", "images/products/macbook-air.jpg", "Apple MacBook Air M1", 999.99m, 0.15m, null, null },
+                    { 6, true, "sony-wh1000xm4-headphones", true, 5, 6, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7380), null, "sony-headphones.jpg", "WH1000XM4", "images/products/sony-headphones.jpg", "Sony WH-1000XM4 Wireless Headphones", 349.99m, 0.10m, null, null },
+                    { 7, true, "apple-ipad-air-2022", false, 3, 7, new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7383), null, "ipad-air-2022.jpg", "IPA2022", "images/products/ipad-air-2022.jpg", "Apple iPad Air 2022", 599.99m, 0.05m, null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProductSku",
+                columns: new[] { "ProductSkuId", "ColorId", "ImageName", "ProductId", "Sku", "UnitInStock", "UnitPrice", "skuImage" },
+                values: new object[,]
+                {
+                    { 1, 1, "mouse-red.jpg", 1, "WM123-RED", 100, 25.99m, "images/sku/mouse-red.jpg" },
+                    { 2, 2, "keyboard-black.jpg", 2, "BK456-BLK", 50, 45.99m, "images/sku/keyboard-black.jpg" }
                 });
 
             migrationBuilder.CreateIndex(

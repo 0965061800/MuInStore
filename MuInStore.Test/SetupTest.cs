@@ -77,7 +77,7 @@ namespace MuInStore.Test
             _mockUnitOfWork.Setup(x => x.ColorRepository).Returns(_mockColorRepo.Object);
 
             _categoryController = new CategoryController(_mockUnitOfWork.Object);
-            _productController = new ProductController(_mockUnitOfWork.Object);
+            //_productController = new ProductController(_mockUnitOfWork.Object);
             _productSkuController = new ProductSkuController(_mockUnitOfWork.Object);
             _checkoutController = new CheckoutController(_mockUnitOfWork.Object, _mockUserManager.Object);
             _brandController = new BrandController(_mockUnitOfWork.Object);

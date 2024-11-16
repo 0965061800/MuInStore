@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuInStore.Test", "MuInStore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuIn.Domain", "MuIn.Domain\MuIn.Domain.csproj", "{F621F261-2F37-42C8-8806-02CDD18DD0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuIn.Infrastructure", "MuIn.Infrastructure\MuIn.Infrastructure.csproj", "{A1462930-E8B2-4655-A2E8-2808DDB11E91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuIn.Infrastructure", "MuIn.Infrastructure\MuIn.Infrastructure.csproj", "{A1462930-E8B2-4655-A2E8-2808DDB11E91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuIn.Application", "MuIn.Application\MuIn.Application.csproj", "{8A0B3332-829C-4090-828D-DE73AF6E0CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A1462930-E8B2-4655-A2E8-2808DDB11E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1462930-E8B2-4655-A2E8-2808DDB11E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1462930-E8B2-4655-A2E8-2808DDB11E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A0B3332-829C-4090-828D-DE73AF6E0CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A0B3332-829C-4090-828D-DE73AF6E0CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A0B3332-829C-4090-828D-DE73AF6E0CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A0B3332-829C-4090-828D-DE73AF6E0CC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

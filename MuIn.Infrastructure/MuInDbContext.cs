@@ -5,6 +5,7 @@ using MuIn.Domain.Aggregates;
 using MuIn.Domain.Aggregates.OrderAggregate;
 using MuIn.Domain.Aggregates.ProductAggregate;
 using MuIn.Domain.Aggregates.UserAggregate;
+using MuIn.Infrastructure.SeedData;
 
 namespace MuIn.Infrastructure
 {
@@ -35,6 +36,11 @@ namespace MuIn.Infrastructure
                 }
             };
             modelBuilder.Entity<IdentityRole>().HasData(roles);
+            modelBuilder.SeedBrandata();
+            modelBuilder.SeedCatData();
+            modelBuilder.SeedColorData();
+            modelBuilder.SeedProductData();
+            modelBuilder.SeedProductSkuData();
         }
     }
 }

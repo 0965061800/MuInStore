@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MuIn.Application.MapperConfiguration;
 using MuIn.Domain.Aggregates.UserAggregate;
 using MuIn.Infrastructure;
 using MuInStoreAPI.Service;
@@ -20,7 +21,7 @@ namespace MuInStoreAPI
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddAutoMapper(typeof(ProductProfile));
 
             builder.Services.AddDbContext<MuInDbContext>(options =>
             {
@@ -91,7 +92,6 @@ namespace MuInStoreAPI
             });
 
             builder.Services.AddScoped<ITokenService, TokenService>();
-            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

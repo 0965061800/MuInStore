@@ -12,7 +12,7 @@ using MuIn.Infrastructure;
 namespace MuIn.Infrastructure.Migrations
 {
     [DbContext(typeof(MuInDbContext))]
-    [Migration("20241112153155_init")]
+    [Migration("20241115035304_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -54,13 +54,13 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f34c0db5-f607-4347-a60c-7b7ccaa8e860",
+                            Id = "31c15610-951b-4cd7-9528-4f7148711050",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6798de1c-e67c-43a2-8327-2e299f8413cd",
+                            Id = "6389555d-defd-416d-b768-cd1c113bd2f5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -194,6 +194,43 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasKey("BrandId");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            BrandId = 1,
+                            Alias = "logitech",
+                            BrandImage = "images/brands/logitech.jpg",
+                            BrandName = "Logitech"
+                        },
+                        new
+                        {
+                            BrandId = 2,
+                            Alias = "razer",
+                            BrandImage = "images/brands/razer.jpg",
+                            BrandName = "Razer"
+                        },
+                        new
+                        {
+                            BrandId = 3,
+                            Alias = "apple",
+                            BrandImage = "images/brands/apple.jpg",
+                            BrandName = "Apple"
+                        },
+                        new
+                        {
+                            BrandId = 4,
+                            Alias = "samsung",
+                            BrandImage = "images/brands/samsung.jpg",
+                            BrandName = "Samsung"
+                        },
+                        new
+                        {
+                            BrandId = 5,
+                            Alias = "sony",
+                            BrandImage = "images/brands/sony.jpg",
+                            BrandName = "Sony"
+                        });
                 });
 
             modelBuilder.Entity("MuIn.Domain.Aggregates.Category", b =>
@@ -232,6 +269,73 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasIndex("CategoryCatId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CatId = 1,
+                            Alias = "computer-accessories",
+                            CatImage = "images/categories/computer-accessories.jpg",
+                            CatName = "Computer Accessories",
+                            Description = "Everything you need for your computer setup.",
+                            ImageName = "computer-accessories.jpg"
+                        },
+                        new
+                        {
+                            CatId = 2,
+                            Alias = "keyboards",
+                            CatImage = "images/categories/keyboards.jpg",
+                            CatName = "Keyboards",
+                            Description = "A variety of keyboards for every need.",
+                            ImageName = "keyboards.jpg",
+                            ParentCatId = 1
+                        },
+                        new
+                        {
+                            CatId = 3,
+                            Alias = "mice-and-pointing-devices",
+                            CatImage = "images/categories/mice.jpg",
+                            CatName = "Mice & Pointing Devices",
+                            Description = "Mice, trackpads, and other pointing devices.",
+                            ImageName = "mice.jpg",
+                            ParentCatId = 1
+                        },
+                        new
+                        {
+                            CatId = 4,
+                            Alias = "smartphones",
+                            CatImage = "images/categories/smartphones.jpg",
+                            CatName = "Smartphones",
+                            Description = "Latest smartphones from top brands.",
+                            ImageName = "smartphones.jpg"
+                        },
+                        new
+                        {
+                            CatId = 5,
+                            Alias = "laptops",
+                            CatImage = "images/categories/laptops.jpg",
+                            CatName = "Laptops",
+                            Description = "Laptops for work, gaming, and casual use.",
+                            ImageName = "laptops.jpg"
+                        },
+                        new
+                        {
+                            CatId = 6,
+                            Alias = "headphones",
+                            CatImage = "images/categories/headphones.jpg",
+                            CatName = "Headphones",
+                            Description = "Wired and wireless headphones for all needs.",
+                            ImageName = "headphones.jpg"
+                        },
+                        new
+                        {
+                            CatId = 7,
+                            Alias = "tablets",
+                            CatImage = "images/categories/tablets.jpg",
+                            CatName = "Tablets",
+                            Description = "Tablets for personal and professional use.",
+                            ImageName = "tablets.jpg"
+                        });
                 });
 
             modelBuilder.Entity("MuIn.Domain.Aggregates.Color", b =>
@@ -249,6 +353,18 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasKey("ColorId");
 
                     b.ToTable("Colors");
+
+                    b.HasData(
+                        new
+                        {
+                            ColorId = 1,
+                            ColorName = "Red"
+                        },
+                        new
+                        {
+                            ColorId = 2,
+                            ColorName = "Black"
+                        });
                 });
 
             modelBuilder.Entity("MuIn.Domain.Aggregates.OrderAggregate.Order", b =>
@@ -400,6 +516,120 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            Active = true,
+                            Alias = "logitech-wireless-mouse",
+                            BestSeller = true,
+                            BrandId = 1,
+                            CategoryId = 1,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7362),
+                            ImageName = "mouse.jpg",
+                            ProductCode = "WM123",
+                            ProductImage = "images/products/mouse.jpg",
+                            ProductName = "Logitech Wireless Mouse",
+                            ProductPrice = 25.99m,
+                            Sale = 0.15m
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            Active = true,
+                            Alias = "razer-gaming-keyboard",
+                            BestSeller = true,
+                            BrandId = 2,
+                            CategoryId = 2,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7367),
+                            ImageName = "keyboard.jpg",
+                            ProductCode = "RK123",
+                            ProductImage = "images/products/keyboard.jpg",
+                            ProductName = "Razer Mechanical Gaming Keyboard",
+                            ProductPrice = 99.99m,
+                            Sale = 0.10m
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            Active = true,
+                            Alias = "apple-magic-mouse",
+                            BestSeller = false,
+                            BrandId = 3,
+                            CategoryId = 3,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7370),
+                            ImageName = "apple-magic-mouse.jpg",
+                            ProductCode = "AMM100",
+                            ProductImage = "images/products/apple-magic-mouse.jpg",
+                            ProductName = "Apple Magic Mouse",
+                            ProductPrice = 79.99m,
+                            Sale = 0.05m
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Active = true,
+                            Alias = "samsung-galaxy-s21",
+                            BestSeller = true,
+                            BrandId = 4,
+                            CategoryId = 4,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7373),
+                            ImageName = "galaxy-s21.jpg",
+                            ProductCode = "SGS21",
+                            ProductImage = "images/products/galaxy-s21.jpg",
+                            ProductName = "Samsung Galaxy S21",
+                            ProductPrice = 799.99m,
+                            Sale = 0.10m
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Active = true,
+                            Alias = "apple-macbook-air-m1",
+                            BestSeller = true,
+                            BrandId = 3,
+                            CategoryId = 5,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7376),
+                            ImageName = "macbook-air.jpg",
+                            ProductCode = "MBA-M1",
+                            ProductImage = "images/products/macbook-air.jpg",
+                            ProductName = "Apple MacBook Air M1",
+                            ProductPrice = 999.99m,
+                            Sale = 0.15m
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Active = true,
+                            Alias = "sony-wh1000xm4-headphones",
+                            BestSeller = true,
+                            BrandId = 5,
+                            CategoryId = 6,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7380),
+                            ImageName = "sony-headphones.jpg",
+                            ProductCode = "WH1000XM4",
+                            ProductImage = "images/products/sony-headphones.jpg",
+                            ProductName = "Sony WH-1000XM4 Wireless Headphones",
+                            ProductPrice = 349.99m,
+                            Sale = 0.10m
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Active = true,
+                            Alias = "apple-ipad-air-2022",
+                            BestSeller = false,
+                            BrandId = 3,
+                            CategoryId = 7,
+                            CreatAt = new DateTime(2024, 11, 15, 10, 53, 3, 903, DateTimeKind.Local).AddTicks(7383),
+                            ImageName = "ipad-air-2022.jpg",
+                            ProductCode = "IPA2022",
+                            ProductImage = "images/products/ipad-air-2022.jpg",
+                            ProductName = "Apple iPad Air 2022",
+                            ProductPrice = 599.99m,
+                            Sale = 0.05m
+                        });
                 });
 
             modelBuilder.Entity("MuIn.Domain.Aggregates.ProductAggregate.ProductSku", b =>
@@ -441,6 +671,30 @@ namespace MuIn.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductSku");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductSkuId = 1,
+                            ColorId = 1,
+                            ImageName = "mouse-red.jpg",
+                            ProductId = 1,
+                            Sku = "WM123-RED",
+                            UnitInStock = 100,
+                            UnitPrice = 25.99m,
+                            skuImage = "images/sku/mouse-red.jpg"
+                        },
+                        new
+                        {
+                            ProductSkuId = 2,
+                            ColorId = 2,
+                            ImageName = "keyboard-black.jpg",
+                            ProductId = 2,
+                            Sku = "BK456-BLK",
+                            UnitInStock = 50,
+                            UnitPrice = 45.99m,
+                            skuImage = "images/sku/keyboard-black.jpg"
+                        });
                 });
 
             modelBuilder.Entity("MuIn.Domain.Aggregates.UserAggregate.AppUser", b =>
