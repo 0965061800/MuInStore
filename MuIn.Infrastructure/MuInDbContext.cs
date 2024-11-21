@@ -22,6 +22,7 @@ namespace MuIn.Infrastructure
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Brand>().HasMany(b => b.Products).WithOne(p => p.Brand).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<Category>().HasMany(b => b.Products).WithOne(p => p.Category).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Category>().HasOne(c => c.Parent).WithMany(c => c.Subcategories).HasForeignKey(c => c.ParentCatId).OnDelete(DeleteBehavior.NoAction);
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole

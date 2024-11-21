@@ -10,7 +10,6 @@
     <Folder Include="EntityConfigurations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

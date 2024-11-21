@@ -4,9 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MuIn.Application.Interfaces;
 using MuIn.Application.MapperConfiguration;
+using MuIn.Application.ProductService.Concrete;
+using MuIn.Domain.Aggregates.ProductAggregate;
 using MuIn.Domain.Aggregates.UserAggregate;
+using MuIn.Domain.SeedWork.InterfaceRepo;
 using MuIn.Infrastructure;
+using MuIn.Infrastructure.Repositories;
 using MuInStoreAPI.Service;
 
 namespace MuInStoreAPI
@@ -92,6 +97,11 @@ namespace MuInStoreAPI
             });
 
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IListService<Product>, ListProductService>();
+
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())

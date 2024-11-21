@@ -10,11 +10,11 @@ namespace MuIn.Application.ProductService.QueryObject
     }
     public static class ProductDtoFilter
     {
-        public static IQueryable<Product> FilterProductsBy(this IQueryable<Product> products, int? catId, ProductFilterBy productFilterBy, string filterValue)
+        public static IQueryable<Product> FilterProductsBy(this IQueryable<Product> products, List<int> catIdList, ProductFilterBy productFilterBy, string filterValue)
         {
-            if (catId != null)
+            if (catIdList.Count > 0)
             {
-                products = products.Where(p => p.Category.CatId == catId);
+                products = products.Where(x => catIdList.Contains((int)x.CategoryId));
             }
             switch (productFilterBy)
             {

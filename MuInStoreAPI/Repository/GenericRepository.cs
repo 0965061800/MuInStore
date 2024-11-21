@@ -7,7 +7,7 @@ namespace MuInStoreAPI.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly MuInDbContext _db;
+        protected readonly MuInDbContext _db;
         internal DbSet<T> dbSet;
         public GenericRepository(MuInDbContext db)
         {
