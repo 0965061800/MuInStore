@@ -1,15 +1,8 @@
 ﻿using MuIn.Domain.Aggregates.ProductAggregate;
+using MuInShared.Product;
 
 namespace MuIn.Application.ProductService.QueryObject
 {
-    public enum OrderProductByOptions
-    {
-        SimpleOrder = 0,
-        ByVotes,
-        ByPriceLowestFirst,
-        ByPriceHighestFirst
-    }
-
     public static class ProductDtoSort
     {
         public static IQueryable<Product> OrderProductsBy(this IQueryable<Product> products, OrderProductByOptions orderProductByOptions)

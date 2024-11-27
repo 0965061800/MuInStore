@@ -1,6 +1,4 @@
-﻿using MuIn.Application.ProductService.QueryObject;
-
-namespace MuIn.Application.ProductService
+﻿namespace MuInShared.Product
 {
     public class SortFilterPageOptions
     {
@@ -27,19 +25,19 @@ namespace MuIn.Application.ProductService
         public int[] PageSizes = { 5, DefaultPageSize, 20, 50, 100, 500, 1000 };
 
         public int NumPages { get; private set; }
-        public string? PrevCheckState { get; set; }
+        //public string? PrevCheckState { get; set; }
         public void SetupRestOfDto<T>(IQueryable<T> query)
         {
             NumPages = (int)Math.Ceiling((double)query.Count() / PageSize);
             PageNum = Math.Min(Math.Max(1, PageNum), NumPages);
 
-            var newCheckState = GenerateCheckState();
-            if (PrevCheckState != newCheckState) PageNum = 1;
-            PrevCheckState = newCheckState;
+            //var newCheckState = GenerateCheckState();
+            //if (PrevCheckState != newCheckState) PageNum = 1;
+            //PrevCheckState = newCheckState;
         }
-        private string GenerateCheckState()
-        {
-            return $"{(int)FilterBy},{FilterValue},{PageSize},{NumPages}";
-        }
+        //private string GenerateCheckState()
+        //{
+        //    return $"{(int)FilterBy},{FilterValue},{PageSize},{NumPages}";
+        //}
     }
 }

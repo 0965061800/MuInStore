@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MuInMVC.Interfaces;
 using MuInShared.Cart;
+using MuInShared.Category;
 using MuInShared.Comment;
-using MuInShared.Helpers;
+using MuInShared.Product;
 using System.Text;
 
 namespace MuInMVC.Controllers
@@ -22,14 +23,25 @@ namespace MuInMVC.Controllers
 			_productSkuService = productSkuService;
 		}
 
-		public IActionResult Index()
+		[Route("[controller]")]
+		[Route("[controller]/{catId}")]
+		public IActionResult Index([FromQuery] SortFilterPageOptionRequest query, int catId)
 		{
-			ProductQueryObject query = new ProductQueryObject();
-			var productList = _productService.GetProducts(query);
-			if (productList == null) return View("Error");
-			var categoryList = _categoryService.GetCategories();
+			if (query.PageNum == 0)
+			{
+				query.PageNum = 1;
+			}
+			if (query.PageSize == 0)
+			{
+				query.PageSize = 3;
+			}
+			if (catId != 0) query.CatId = catId;
+			var productListCombine = _productService.GetProducts(query);
+			if (productListCombine == null) return View("Error");
+			var categoryList = _categoryService.GetCategories(catId);
+			if (categoryList == null) categoryList = new List<CategoryDto>();
 			ViewData["Categories"] = categoryList;
-			return View(productList.Data);
+			return View(productListCombine);
 		}
 
 
@@ -90,15 +102,15 @@ namespace MuInMVC.Controllers
 			}
 		}
 
-		[HttpPost]
-		public IActionResult Filter(ProductQueryObject query)
-		{
-			var productList = _productService.GetProducts(query);
-			if (productList == null) return View("Error");
-			var categoryList = _categoryService.GetCategories();
-			ViewData["Categories"] = categoryList;
-			return View("Index", productList.Data);
-		}
+		//[HttpPost]
+		//public IActionResult Filter(SortFilterPageOptionRequest query)
+		//{
+		//	var productList = _productService.GetProducts(query);
+		//	if (productList == null) return View("Error");
+		//	var categoryList = _categoryService.GetCategories();
+		//	ViewData["Categories"] = categoryList;
+		//	return View("Index", productList.ProductList.ToList());
+		//}
 
 		public async Task<IActionResult> ChangeColor(int productId, int colorId)
 		{

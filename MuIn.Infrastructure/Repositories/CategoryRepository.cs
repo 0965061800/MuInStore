@@ -19,7 +19,7 @@ namespace MuIn.Infrastructure.Repositories
         {
 
             List<int> catIdList = new();
-            if (parentId != null)
+            if (parentId != 0)
             {
                 catIdList.Add(parentId);
                 int i = 0;
@@ -37,6 +37,9 @@ namespace MuIn.Infrastructure.Repositories
             return catIdList;
         }
 
-
+        public async Task<List<Category>> GetAllParentCategory()
+        {
+            return await _context.Categories.Where(x => x.ParentCatId == null).ToListAsync();
+        }
     }
 }

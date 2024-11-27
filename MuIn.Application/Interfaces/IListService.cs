@@ -1,10 +1,10 @@
-﻿using MuIn.Application.ProductService;
+﻿using MuInShared.Product;
 
 namespace MuIn.Application.Interfaces
 {
     public interface IListService<T>
     {
-        Task<IQueryable<T>> SortFilterPage(SortFilterPageOptions options, int parentCatId);
+        Task<IQueryable<T>> SortFilterPage(SortFilterPageOptions options);
         Task<IQueryable<T?>> GetById(int id);
         Task<T?> Add(T item);
         Task<T?> Add(T item, int anotherId);

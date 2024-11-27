@@ -5,6 +5,7 @@ using MuIn.Application.QueryObject;
 using MuIn.Domain.Aggregates.ProductAggregate;
 using MuIn.Domain.SeedWork.InterfaceRepo;
 using MuIn.Infrastructure;
+using MuInShared.Product;
 
 namespace MuIn.Application.ProductService.Concrete
 {
@@ -20,13 +21,14 @@ namespace MuIn.Application.ProductService.Concrete
             _brandRepo = brandRepository;
         }
 
-        public async Task<IQueryable<Product>> SortFilterPage(SortFilterPageOptions options, int parentCatId)
+        public async Task<IQueryable<Product>> SortFilterPage(SortFilterPageOptions options)
         {
-            List<int> catIdList = await _catRepo.FindCatIdAndAllSubCatId(parentCatId);
+            List<int> catIdList = await _catRepo.FindCatIdAndAllSubCatId(options.CatID ?? 0);
             var productsQuery = _db.Products
                 .AsNoTracking()
                 .OrderProductsBy(options.OrderByOptions)
                 .FilterProductsBy(catIdList, options.FilterBy, options.FilterValue);
+            options.SetupRestOfDto(productsQuery);
             return productsQuery.Page(options.PageNum - 1, options.PageSize);
         }
 

@@ -2,8 +2,9 @@
 
 namespace MuIn.Domain.SeedWork.InterfaceRepo
 {
-    public interface IBrandRepository : IGenericRepository<Brand>
-    {
-        Task<bool> CheckBrandExist(int id);
-    }
+	public interface IBrandRepository : IGenericRepository<Brand>
+	{
+		Task<bool> CheckBrandExist(int id);
+		Task<List<Brand>?> GetAll();
+	}
 }

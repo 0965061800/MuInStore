@@ -1,12 +1,10 @@
-﻿using MuInShared;
-using MuInShared.Helpers;
-using MuInShared.Product;
+﻿using MuInShared.Product;
 
 namespace MuInMVC.Interfaces
 {
 	public interface IProductService
 	{
-		ReponseModel<List<ProductDto>>? GetProducts(ProductQueryObject query);
+		ProductListCombine? GetProducts(SortFilterPageOptionRequest query);
 		ProductFullDto? GetProductById(int id);
 	}
 }

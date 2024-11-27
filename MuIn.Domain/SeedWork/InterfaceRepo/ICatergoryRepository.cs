@@ -6,5 +6,6 @@ namespace MuIn.Domain.SeedWork.InterfaceRepo
     {
         Task<List<int>> FindCatIdAndAllSubCatId(int parentId);
         Task<bool> CheckCatExist(int id);
+        Task<List<Category>> GetAllParentCategory();
     }
 }
