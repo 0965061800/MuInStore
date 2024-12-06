@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +52,8 @@ namespace MuInStoreAPI
 				options.DefaultForbidScheme =
 				options.DefaultScheme =
 				options.DefaultSignOutScheme =
-				options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options =>
 			{
 				options.TokenValidationParameters = new TokenValidationParameters
@@ -68,6 +68,17 @@ namespace MuInStoreAPI
 					),
 					//ClockSkew = TimeSpan.Zero
 				};
+			});
+
+
+			builder.Services.ConfigureApplicationCookie(options =>
+			{
+				options.Cookie.HttpOnly = true;
+				options.Cookie.SameSite = SameSiteMode.None;
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+				options.LoginPath = "/Identity/Account/Login";
+				options.LogoutPath = "/Identity/Account/Logout";
+				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 			});
 
 			builder.Services.AddSwaggerGen(option =>
@@ -105,6 +116,7 @@ namespace MuInStoreAPI
 			builder.Services.AddScoped<IListService<Product>, ListProductService>();
 			builder.Services.AddScoped<ICatService, CategoryListService>();
 			builder.Services.AddScoped<IBrandServices, BrandService>();
+			builder.Services.AddScoped<IProductImageService, ProductImageServices>();
 
 			var app = builder.Build();
 			if (app.Environment.IsDevelopment())
@@ -114,7 +126,7 @@ namespace MuInStoreAPI
 			}
 
 			app.UseHttpsRedirection();
-			app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed(origin => true));
+			app.UseCors(x => x.WithOrigins("https://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed(origin => true));
 
 			app.UseAuthorization();
 

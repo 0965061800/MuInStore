@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuIn.Application.Dtos;
 using MuIn.Application.Interfaces;
 using MuIn.Domain.Aggregates.ProductAggregate;
 using MuInShared.Product;
@@ -14,11 +15,12 @@ namespace MuInStoreAPI.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IListService<Product> _productService;
-
-		public ProductController(IMapper mapper, IListService<Product> productService)
+		private readonly IProductImageService _productImageService;
+		public ProductController(IMapper mapper, IListService<Product> productService, IProductImageService productImageService)
 		{
 			_mapper = mapper;
 			_productService = productService;
+			_productImageService = productImageService;
 		}
 
 		[HttpGet]
@@ -56,19 +58,22 @@ namespace MuInStoreAPI.Controllers
 			return Ok(productFullDto);
 		}
 		[HttpPost]
-		//[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> CreateProduct(RequestProductDto requestProductDto)
+		public async Task<IActionResult> CreateProduct([FromForm] RequestProductDto requestProductDto, [FromForm] IFormFile productImage)
 		{
+			using var memoryStream = new MemoryStream();
+			await productImage.CopyToAsync(memoryStream);
+			var imageName = await _productImageService.UploadImageAsync(memoryStream.ToArray(), productImage.FileName);
 			try
 			{
 				Product newProduct = _mapper.Map<Product>(requestProductDto);
-
+				newProduct.ProductImage = productImage?.FileName ?? "";
 				var product = await _productService.Add(newProduct, requestProductDto.ColorId);
-
-				return Ok(product);
+				ProductDto productResponse = _mapper.Map<ProductDto>(product);
+				return Ok(productResponse);
 			}
 			catch (Exception ex)
 			{
+				_productImageService.DeleteImage(imageName);
 				return StatusCode(500, ex.Message);
 			}
 		}

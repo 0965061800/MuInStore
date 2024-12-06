@@ -102,16 +102,6 @@ namespace MuInMVC.Controllers
 			}
 		}
 
-		//[HttpPost]
-		//public IActionResult Filter(SortFilterPageOptionRequest query)
-		//{
-		//	var productList = _productService.GetProducts(query);
-		//	if (productList == null) return View("Error");
-		//	var categoryList = _categoryService.GetCategories();
-		//	ViewData["Categories"] = categoryList;
-		//	return View("Index", productList.ProductList.ToList());
-		//}
-
 		public async Task<IActionResult> ChangeColor(int productId, int colorId)
 		{
 			var productSkuDto = _productSkuService.GetProductSkuDto(productId, colorId);
