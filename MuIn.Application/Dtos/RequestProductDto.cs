@@ -26,7 +26,5 @@ namespace MuIn.Application.Dtos
 		public bool Active { get; set; } = true;
 		public int? BrandId { get; set; }
 		public int? CategoryId { get; set; }
-		[Required]
-		public int ColorId { get; set; }
 	}
 }

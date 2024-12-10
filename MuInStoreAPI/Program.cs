@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MuIn.Application.BrandService;
 using MuIn.Application.CategoryService;
+using MuIn.Application.ColorService;
 using MuIn.Application.Interfaces;
 using MuIn.Application.MapperConfiguration;
 using MuIn.Application.ProductService.Concrete;
@@ -113,12 +115,23 @@ namespace MuInStoreAPI
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
+			builder.Services.AddScoped<IColorRepository, ColorRepository>();
+
 			builder.Services.AddScoped<IListService<Product>, ListProductService>();
 			builder.Services.AddScoped<ICatService, CategoryListService>();
 			builder.Services.AddScoped<IBrandServices, BrandService>();
 			builder.Services.AddScoped<IProductImageService, ProductImageServices>();
+			builder.Services.AddScoped<IColorService, ColorService>();
 
 			var app = builder.Build();
+
+			var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(staticFilesPath),
+				RequestPath = "/files"
+			});
+
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();

@@ -24,24 +24,6 @@ namespace MuInStoreAPI.Mappers
 				ImageName = ProductModel.ImageName
 			};
 		}
-
-		public static Product UpdateToProduct(this UpdateProductDto updateProductDto, Product product)
-		{
-			product.ProductName = updateProductDto.ProductName;
-			product.ProductCode = updateProductDto.ProductCode;
-			product.ProductPrice = updateProductDto.ProductPrice;
-			product.Description = updateProductDto.Description;
-			product.BestSeller = updateProductDto.BestSeller;
-			product.Sale = updateProductDto.Sale;
-			product.VideoLink = updateProductDto.VideoLink;
-			product.Alias = updateProductDto.Alias;
-			product.BrandId = updateProductDto.BrandId;
-			product.CategoryId = updateProductDto.CategoryId;
-			product.ImageName = updateProductDto.ImageName;
-			product.ProductImage = updateProductDto.ProductImage;
-			return product;
-		}
-
 		public static ProductFullDto ToProductFullDto(this Product product)
 		{
 			return new ProductFullDto

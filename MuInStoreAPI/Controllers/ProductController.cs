@@ -58,7 +58,7 @@ namespace MuInStoreAPI.Controllers
 			return Ok(productFullDto);
 		}
 		[HttpPost]
-		public async Task<IActionResult> CreateProduct([FromForm] RequestProductDto requestProductDto, [FromForm] IFormFile productImage)
+		public async Task<IActionResult> CreateProduct([FromForm] RequestProductDto requestProductDto, [FromForm] IFormFile productImage, [FromForm] int ColorId)
 		{
 			using var memoryStream = new MemoryStream();
 			await productImage.CopyToAsync(memoryStream);
@@ -66,8 +66,8 @@ namespace MuInStoreAPI.Controllers
 			try
 			{
 				Product newProduct = _mapper.Map<Product>(requestProductDto);
-				newProduct.ProductImage = productImage?.FileName ?? "";
-				var product = await _productService.Add(newProduct, requestProductDto.ColorId);
+				newProduct.ProductImage = imageName ?? "";
+				var product = await _productService.Add(newProduct, ColorId);
 				ProductDto productResponse = _mapper.Map<ProductDto>(product);
 				return Ok(productResponse);
 			}
@@ -78,12 +78,18 @@ namespace MuInStoreAPI.Controllers
 			}
 		}
 		[HttpPut("{id:int}")]
-		public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDto updateProductDto)
+		public async Task<IActionResult> UpdateProduct(int id, [FromForm] RequestProductDto requestProductDto)
 		{
+
 			try
 			{
-				Product productToChange = _mapper.Map<Product>(updateProductDto);
+				Product productToChange = _mapper.Map<Product>(requestProductDto);
 				var newProduct = await _productService.Update(id, productToChange);
+				if (newProduct is not null)
+				{
+					var updatedProduct = await _productService.Update(id, newProduct);
+					return Ok(updatedProduct);
+				}
 				return Ok(newProduct);
 			}
 			catch (Exception ex)
@@ -102,6 +108,31 @@ namespace MuInStoreAPI.Controllers
 					return NotFound();
 				}
 				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpPut]
+		[Route("productImage/{id:int}")]
+		public async Task<IActionResult> UpdateProductImage(int id, [FromForm] IFormFile? productImage)
+		{
+			try
+			{
+				if (productImage is null)
+				{
+					await _productImageService.UpdateImageAsync(id, null, null);
+				}
+				else
+				{
+					using var memoryStream = new MemoryStream();
+					await productImage.CopyToAsync(memoryStream);
+
+					await _productImageService.UpdateImageAsync(id, memoryStream.ToArray(), productImage.FileName);
+				}
+				return Ok();
 			}
 			catch (Exception ex)
 			{
