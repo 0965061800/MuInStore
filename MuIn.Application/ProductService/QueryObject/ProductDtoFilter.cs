@@ -16,7 +16,7 @@ namespace MuIn.Application.ProductService.QueryObject
 				case ProductFilterBy.NoFilter:
 					return products;
 				case ProductFilterBy.ByBrand:
-					return products.Where(p => p.Brand != null && p.Brand.Alias.Contains(filterValue));
+					return products.Where(p => p.Brand != null && p.BrandId == int.Parse(filterValue));
 				case ProductFilterBy.ByName:
 					return products.Where(p => p.ProductName.Contains(filterValue));
 				default:

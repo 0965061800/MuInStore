@@ -1,9 +1,7 @@
-﻿using MuIn.Domain.Aggregates;
-
-namespace MuIn.Application.Interfaces
+﻿namespace MuIn.Application.Interfaces
 {
 	public interface IColorService
 	{
-		Task<List<Color>?> ListAllColors();
+		Task<List<MuIn.Domain.Aggregates.Color>?> ListAllColors();
 	}
 }

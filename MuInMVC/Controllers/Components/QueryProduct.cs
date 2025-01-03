@@ -26,7 +26,7 @@ namespace MuInMVC.Controllers.Components
 				string brandData = brandReponse.Content.ReadAsStringAsync().Result;
 				brands = JsonConvert.DeserializeObject<List<BrandDto>>(brandData);
 			}
-			ViewBag.BrandList = new SelectList(brands.Select(b => new { BrandAlias = b.Alias, Name = b.BrandName }), "BrandAlias", "Name");
+			ViewBag.BrandList = new SelectList(brands.Select(b => new { BrandId = b.BrandId, Name = b.BrandName }), "BrandId", "Name");
 			return View(query);
 		}
 	}

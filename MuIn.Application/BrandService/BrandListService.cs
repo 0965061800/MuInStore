@@ -4,10 +4,10 @@ using MuIn.Domain.SeedWork.InterfaceRepo;
 
 namespace MuIn.Application.BrandService
 {
-	public class BrandService : IBrandServices
+	public class BrandListService : IBrandServices
 	{
 		private readonly IBrandRepository _brandRepo;
-		public BrandService(IBrandRepository brandRep)
+		public BrandListService(IBrandRepository brandRep)
 		{
 			_brandRepo = brandRep;
 		}

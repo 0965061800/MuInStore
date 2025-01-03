@@ -1,20 +1,7 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MuIn.Application.BrandService;
-using MuIn.Application.CategoryService;
-using MuIn.Application.ColorService;
-using MuIn.Application.Interfaces;
-using MuIn.Application.MapperConfiguration;
-using MuIn.Application.ProductService.Concrete;
-using MuIn.Domain.Aggregates.ProductAggregate;
-using MuIn.Domain.Aggregates.UserAggregate;
-using MuIn.Domain.SeedWork.InterfaceRepo;
+using MuIn.Application;
 using MuIn.Infrastructure;
-using MuIn.Infrastructure.Repositories;
 using MuInStoreAPI.Service;
 
 namespace MuInStoreAPI
@@ -29,59 +16,8 @@ namespace MuInStoreAPI
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
-			builder.Services.AddAutoMapper(typeof(ProductProfile));
-
-			builder.Services.AddDbContext<MuInDbContext>(options =>
-			{
-				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-			});
-
-			//Add Identitity Service and Configuration
-			builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-			{
-				options.Password.RequireDigit = true;
-				options.Password.RequireLowercase = true;
-				options.Password.RequireUppercase = true;
-				options.Password.RequireNonAlphanumeric = true;
-				options.Password.RequiredLength = 12;
-			}).AddEntityFrameworkStores<MuInDbContext>();
-
-			//Add Authentication and Jwt Configuration
-			builder.Services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme =
-				options.DefaultChallengeScheme =
-				options.DefaultForbidScheme =
-				options.DefaultScheme =
-				options.DefaultSignOutScheme =
-				options.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateLifetime = true,
-					ValidateIssuer = true,
-					ValidIssuer = builder.Configuration["JWT:Issuer"],
-					ValidateAudience = true,
-					ValidAudience = builder.Configuration["JWT:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(
-						System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
-					),
-					//ClockSkew = TimeSpan.Zero
-				};
-			});
-
-
-			builder.Services.ConfigureApplicationCookie(options =>
-			{
-				options.Cookie.HttpOnly = true;
-				options.Cookie.SameSite = SameSiteMode.None;
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-				options.LoginPath = "/Identity/Account/Login";
-				options.LogoutPath = "/Identity/Account/Logout";
-				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-			});
+			builder.Services.AddApplicationServices();
+			builder.Services.AddInfrastructureSerivices(builder.Configuration);
 
 			builder.Services.AddSwaggerGen(option =>
 			{
@@ -112,16 +48,6 @@ namespace MuInStoreAPI
 			});
 
 			builder.Services.AddScoped<ITokenService, TokenService>();
-			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-			builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-			builder.Services.AddScoped<IProductRepository, ProductRepository>();
-			builder.Services.AddScoped<IColorRepository, ColorRepository>();
-
-			builder.Services.AddScoped<IListService<Product>, ListProductService>();
-			builder.Services.AddScoped<ICatService, CategoryListService>();
-			builder.Services.AddScoped<IBrandServices, BrandService>();
-			builder.Services.AddScoped<IProductImageService, ProductImageServices>();
-			builder.Services.AddScoped<IColorService, ColorService>();
 
 			var app = builder.Build();
 

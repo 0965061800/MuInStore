@@ -1,17 +1,16 @@
 ﻿using MuIn.Application.Interfaces;
-using MuIn.Domain.Aggregates;
 using MuIn.Domain.SeedWork.InterfaceRepo;
 
 namespace MuIn.Application.ColorService
 {
-	public class ColorService : IColorService
+	public class ColorListService : IColorService
 	{
 		private readonly IColorRepository _colorRepo;
-		public ColorService(IColorRepository colorRepo)
+		public ColorListService(IColorRepository colorRepo)
 		{
 			_colorRepo = colorRepo;
 		}
-		public async Task<List<Color>?> ListAllColors()
+		public async Task<List<MuIn.Domain.Aggregates.Color>?> ListAllColors()
 		{
 			return await _colorRepo.GetAllColor();
 		}

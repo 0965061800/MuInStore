@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MuIn.Application.Interfaces;
+﻿using MuIn.Application.Interfaces;
 using MuIn.Domain.Aggregates;
 using MuIn.Domain.SeedWork.InterfaceRepo;
-using MuIn.Infrastructure;
 
 namespace MuIn.Application.CategoryService
 {
-	public class CategoryListService : AppService, ICatService
+	public class CategoryListService : ICatService
 	{
 		private ICategoryRepository _categoryRepository;
-		public CategoryListService(MuInDbContext _context, ICategoryRepository categoryRepository) : base(_context)
+		public CategoryListService(ICategoryRepository categoryRepository)
 		{
 			_categoryRepository = categoryRepository;
 		}
@@ -30,7 +28,7 @@ namespace MuIn.Application.CategoryService
 
 		public async Task<List<Category>?> GetAllChildrenCategory(int id)
 		{
-			List<Category>? listChildrentCategories = await _db.Categories.Where(x => id == 0 ? x.ParentCatId == null : x.ParentCatId == id).ToListAsync();
+			List<Category>? listChildrentCategories = await _categoryRepository.GetAllChildrenCategory(id);
 			return listChildrentCategories;
 		}
 

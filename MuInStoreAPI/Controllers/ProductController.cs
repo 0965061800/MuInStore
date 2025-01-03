@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MuIn.Application.Dtos;
 using MuIn.Application.Interfaces;
 using MuIn.Domain.Aggregates.ProductAggregate;
@@ -14,9 +13,9 @@ namespace MuInStoreAPI.Controllers
 	public class ProductController : ControllerBase
 	{
 		private readonly IMapper _mapper;
-		private readonly IListService<Product> _productService;
+		private readonly IProductServices _productService;
 		private readonly IProductImageService _productImageService;
-		public ProductController(IMapper mapper, IListService<Product> productService, IProductImageService productImageService)
+		public ProductController(IMapper mapper, IProductServices productService, IProductImageService productImageService)
 		{
 			_mapper = mapper;
 			_productService = productService;
@@ -28,17 +27,8 @@ namespace MuInStoreAPI.Controllers
 		{
 			try
 			{
-				SortFilterPageOptions sortFilterPageData = _mapper.Map<SortFilterPageOptions>(sortFilterPageRequest);
-				var query = await _productService.SortFilterPage(sortFilterPageData);
-
-				var result = await query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).ToListAsync();
-				if (result == null)
-				{
-					return NotFound("Sorry, but there is no products in your database");
-				}
-				SortFilterPageOptionResponse sortFilterPageOptionResponse = _mapper.Map<SortFilterPageOptionResponse>(sortFilterPageData);
-				var productCombineResult = new ProductListCombine(sortFilterPageOptionResponse, result);
-				return Ok(productCombineResult);
+				var result = await _productService.SortFilterPage(sortFilterPageRequest);
+				return Ok(result);
 			}
 			catch (Exception ex)
 			{
@@ -54,8 +44,7 @@ namespace MuInStoreAPI.Controllers
 			{
 				return NotFound("");
 			}
-			var productFullDto = await product.ProjectTo<ProductFullDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
-			return Ok(productFullDto);
+			return Ok(product);
 		}
 		[HttpPost]
 		public async Task<IActionResult> CreateProduct([FromForm] RequestProductDto requestProductDto, [FromForm] IFormFile productImage, [FromForm] int ColorId)
@@ -65,19 +54,17 @@ namespace MuInStoreAPI.Controllers
 			var imageName = await _productImageService.UploadImageAsync(memoryStream.ToArray(), productImage.FileName);
 			try
 			{
-				Product newProduct = _mapper.Map<Product>(requestProductDto);
-				newProduct.ProductImage = imageName ?? "";
-				var product = await _productService.Add(newProduct, ColorId);
-				ProductDto productResponse = _mapper.Map<ProductDto>(product);
-				return Ok(productResponse);
+				var product = await _productService.Add(requestProductDto, ColorId, imageName ?? "");
+				return Ok(product);
 			}
 			catch (Exception ex)
 			{
-				_productImageService.DeleteImage(imageName);
+				await _productImageService.DeleteImage(imageName);
 				return StatusCode(500, ex.Message);
 			}
 		}
 		[HttpPut("{id:int}")]
+		[Authorize]
 		public async Task<IActionResult> UpdateProduct(int id, [FromForm] RequestProductDto requestProductDto)
 		{
 

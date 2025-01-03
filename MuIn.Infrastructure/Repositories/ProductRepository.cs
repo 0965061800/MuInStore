@@ -11,6 +11,11 @@ namespace MuIn.Infrastructure.Repositories
 
 		}
 
+		public IQueryable<Product> GetAllProductAsQueryable()
+		{
+			return _context.Products.AsQueryable();
+		}
+
 		public async Task<string?> GetProductImage(int id)
 		{
 			var result = await _context.Products.Where(x => x.ProductId == id).Select(x => x.ProductImage).FirstOrDefaultAsync();
@@ -34,5 +39,6 @@ namespace MuIn.Infrastructure.Repositories
 			}
 			else return null;
 		}
+
 	}
 }

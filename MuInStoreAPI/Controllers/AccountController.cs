@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MuIn.Domain.Aggregates.UserAggregate;
 using MuInShared.Account;
-using MuInStoreAPI.Mappers;
+using MuInShared.User;
 using MuInStoreAPI.Service;
 
 namespace MuInStoreAPI.Controllers
@@ -102,7 +102,14 @@ namespace MuInStoreAPI.Controllers
 		public IActionResult GetUserInfo(string userId)
 		{
 			var appUser = _userManager.Users.FirstOrDefault(x => x.Id == userId);
-			return Ok(appUser.ToUserInfoDto());
+			UserInfoDto userInfo = new UserInfoDto
+			{
+				UserID = appUser.Id,
+				FullName = appUser.UserName,
+				Phone = appUser.PhoneNumber,
+				Address = appUser.Address
+			};
+			return Ok(userInfo);
 		}
 
 
