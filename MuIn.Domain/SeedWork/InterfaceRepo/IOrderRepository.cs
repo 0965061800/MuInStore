@@ -4,7 +4,7 @@ namespace MuIn.Domain.SeedWork.InterfaceRepo
 {
 	public interface IOrderRepository : IGenericRepository<Order>
 	{
-		Task<List<Order>?> GetAllOrderAsync();
-		Task<List<Order>?> GetOrdersByUserName(string userName);
+		//Task<List<Order>?> GetAllOrderAsync();
+		//Task<List<Order>?> GetOrdersByUserName(string userName);
 	}
 }

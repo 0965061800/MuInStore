@@ -44,7 +44,7 @@ namespace MuIn.Infrastructure.Repositories
 
 		public async Task<List<Category>?> GetAllChildrenCategory(int catParentId)
 		{
-			return await _context.Categories.Where(x => catParentId == 0 ? x.ParentCatId == null : x.ParentCatId == catParentId).ToListAsync();
+			return await _context.Categories.Include(x => x.Subcategories).Where(x => catParentId == 0 ? x.ParentCatId == null : x.ParentCatId == catParentId).ToListAsync();
 		}
 	}
 }

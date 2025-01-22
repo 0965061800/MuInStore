@@ -47,6 +47,7 @@ namespace MuInStoreAPI.Controllers
 			return Ok(product);
 		}
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> CreateProduct([FromForm] RequestProductDto requestProductDto, [FromForm] IFormFile productImage, [FromForm] int ColorId)
 		{
 			using var memoryStream = new MemoryStream();
@@ -85,6 +86,7 @@ namespace MuInStoreAPI.Controllers
 			}
 		}
 		[HttpDelete("{id:int}")]
+		[Authorize]
 		public async Task<IActionResult> DeleteProduct(int id)
 		{
 			try

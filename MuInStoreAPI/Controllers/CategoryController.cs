@@ -20,14 +20,6 @@ namespace MuInStoreAPI.Controllers
 		[Route("{catId}")]
 		public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategory(int catId)
 		{
-			//var categories = await _catService.GetAll(filter: x => x.ParentCatId == catQuery.ParentId, includeProperties: "Subcategories");
-			//if (categories == null)
-			//{
-			//    return NotFound("There is no category in your database");
-			//}
-			//var categorieDtos = categories.Select(x => x.ToCategoryDto());
-			//return Ok(categorieDtos);
-
 			var parentCategories = await _catService.GetAllChildrenCategory(catId);
 			if (parentCategories.Count == 0)
 			{

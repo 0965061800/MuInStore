@@ -5,6 +5,7 @@
 
 @{
     ViewData["Title"] = "MuIn Product";
+	string baseUrl = "https://localhost:7137/files/products";
 }
 
 <partial name="_Header2" />
@@ -49,7 +50,7 @@
 						<div class="col-lg-4 col-md-6 text-center strawberry">
 							<div class="single-product-item">
 								<div class="product-image w-100 mb-4" style="height:250px">
-									<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src=@(product.ProductImage != "" ? product.ProductImage : "/assets/img/products/product_default.jpg" ) style="width:100%; height:100%; object-fit:cover" alt="@product.ImageName"></a>
+									<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src=@(product.ProductImage != "" ? baseUrl + "/" + product.ProductImage : "/assets/img/products/product_default.jpg" ) style="width:100%; height:100%; object-fit:cover" alt="@product.ImageName"></a>
 								</div>
 								<h3>@product.ProductName</h3>
 								<p class="product-price"> @product.ProductPrice.ToString("#,##0") VNĐ </p>

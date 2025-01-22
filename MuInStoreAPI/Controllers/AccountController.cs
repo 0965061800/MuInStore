@@ -27,19 +27,22 @@ namespace MuInStoreAPI.Controllers
 			try
 			{
 				if (!ModelState.IsValid) return BadRequest(ModelState);
-				var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
-				if (!result.Succeeded)
+				//var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
+				// Don't use PasswordSignInAsync because it will trigger the cookie, I dont want to reponse the cookie
+				// So I will use UserManager to verify the user
+
+				var user = await _userManager.FindByNameAsync(loginDto.Username);
+				if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
 				{
 					return Unauthorized("User not found and/or password incorrect");
 				}
-				AppUser appUser = _userManager.Users.FirstOrDefault(x => x.UserName == loginDto.Username);
 				return Ok(
 					new NewUserDto
 					{
-						UserName = appUser.UserName,
-						UserId = appUser.Id,
-						Email = appUser.Email,
-						Token = _tokenService.CreateToken(appUser)
+						UserName = user.UserName,
+						UserId = user.Id,
+						Email = user.Email,
+						Token = _tokenService.CreateToken(user)
 					}
 				);
 			}

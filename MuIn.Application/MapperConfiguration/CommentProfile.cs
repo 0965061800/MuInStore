@@ -12,6 +12,7 @@ namespace MuIn.Application.MapperConfiguration
 				.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.AppUserId))
 				.ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.AppUser.UserName));
 			;
+			CreateMap<RequestCommentDto, Comment>();
 		}
 	}
 }

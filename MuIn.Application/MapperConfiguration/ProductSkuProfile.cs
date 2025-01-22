@@ -12,6 +12,7 @@ namespace MuIn.Application.MapperConfiguration
 				.ForMember(dest => dest.ColorDtoId, opt => opt.MapFrom(src => src.ColorId))
 				.ForMember(dest => dest.ColorDto, opt => opt.MapFrom(src => src.Color))
 				;
+			CreateMap<RequestProductSkuDto, ProductSku>();
 		}
 	}
 }

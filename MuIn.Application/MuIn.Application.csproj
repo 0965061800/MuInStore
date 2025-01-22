@@ -16,4 +16,8 @@
     <ProjectReference Include="..\MuInShared\MuInShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PaymentService\" />
+  </ItemGroup>
+
 </Project>

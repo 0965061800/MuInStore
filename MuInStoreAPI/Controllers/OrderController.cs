@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MuIn.Domain.Aggregates.UserAggregate;
 using MuIn.Domain.SeedWork.InterfaceRepo;
 using MuInShared.Order;
-using MuInStoreAPI.Extensions;
 using MuInStoreAPI.Mappers;
 
 namespace MuInStoreAPI.Controllers
@@ -23,13 +22,15 @@ namespace MuInStoreAPI.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrder()
 		{
-			var orders = await _orderRepo.GetAllOrderAsync();
-			if (orders == null)
-			{
-				return NotFound("No Orders in your database");
-			}
-			var orderDtos = orders.OrderByDescending(x => x.CreateDate).Select(o => o.ToOrderDto()).ToList();
-			return Ok(orderDtos);
+			//var orders = await _orderRepo.GetAllOrderAsync();
+			//if (orders == null)
+			//{
+			//	return NotFound("No Orders in your database");
+			//}
+			//var orderDtos = orders.OrderByDescending(x => x.CreateDate).Select(o => o.ToOrderDto()).ToList();
+			//return Ok(orderDtos);
+
+			return Ok();
 		}
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<OrderFullDto>> GetOrderById(int id)
@@ -48,17 +49,21 @@ namespace MuInStoreAPI.Controllers
 		[Authorize]
 		public async Task<ActionResult> GetOrderByName()
 		{
-			var username = User.GetUserName();
-			var orders = await _orderRepo.GetOrdersByUserName(username);
-			if (orders != null)
-			{
-				var orderDto = orders.Select(o => o.ToOrderFullDto()).ToList();
-				return Ok(orderDto);
-			}
-			else
-			{
-				return NotFound();
-			}
+			//var username = User.GetUserName();
+			//var orders = await _orderRepo.GetOrdersByUserName(username);
+			//if (orders != null)
+			//{
+			//	var orderDto = orders.Select(o => o.ToOrderFullDto()).ToList();
+			//	return Ok(orderDto);
+			//}
+			//else
+			//{
+			//	return NotFound();
+			//}
+
+
+
+			return Ok();
 		}
 	}
 }

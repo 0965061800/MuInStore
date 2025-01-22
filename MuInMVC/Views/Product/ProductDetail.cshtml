@@ -7,7 +7,7 @@
 	var AddToCartVM = ViewBag.AddToCart as AddToCartVM;
 	var RequestCommentDto = ViewBag.RequestCommentDto as RequestCommentDto;
 	var productImage = Model.ProductImage;
-	var imageUrl = $"https://firebasestorage.googleapis.com/v0/b/muinimage.appspot.com/o/images%2F{productImage}?alt=media&token=fd9499bb-8e10-473f-b349-b408168e4e1e";
+	var imageUrl = $"https://localhost:7137/files/products/{productImage}";
 }
 
 <partial name="_Header2" />
@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col-md-5">
 				<div class="single-product-img product-image">
-					<img src=@productImage alt="Product Image" class="productImage" />
+					<img src=@imageUrl alt="Product Image" class="productImage" />
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -123,16 +123,16 @@
 					@TempData["Message"]
 				</div>
 			}
-			<form asp-controller="Product" asp-action="CreateComment" method="Post">
+			<form asp-controller="Product" asp-action="CreateComment" asp-route-productId="@Model.ProductId" method="post">
 				<input name="productId" type="hidden" value="@Model.ProductId"/>
 				<p>
-					<input asp-for="@RequestCommentDto.Title" type="text" placeholder="Tiêu đề">
+					<input name="Title" type="text" placeholder="Tiêu đề">
 				</p>
 				<p>
-					<input asp-for="@RequestCommentDto.Rate" type="number"/> /5
+					<input name="Rate" type="number"/> /5
 				</p>
 
-				<p><textarea asp-for="@RequestCommentDto.Content" cols="30" rows="10" placeholder="Bình luận tại đây"></textarea></p>
+				<p><textarea name="Content" cols="30" rows="10" placeholder="Bình luận tại đây"></textarea></p> 
 				<p><input type="submit" value="Đăng"></p>
 			</form>
 		</div>

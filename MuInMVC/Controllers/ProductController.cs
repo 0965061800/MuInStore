@@ -5,7 +5,6 @@ using MuInShared.Cart;
 using MuInShared.Category;
 using MuInShared.Comment;
 using MuInShared.Product;
-using System.Text;
 
 namespace MuInMVC.Controllers
 {
@@ -24,7 +23,7 @@ namespace MuInMVC.Controllers
 		}
 
 		[Route("[controller]")]
-		[Route("[controller]/{catId}")]
+		[Route("[controller]/{catId:int}")]
 		public IActionResult Index([FromQuery] SortFilterPageOptionRequest query, int catId)
 		{
 			if (query.PageNum == 0)
@@ -73,7 +72,10 @@ namespace MuInMVC.Controllers
 			return View(productFullDto);
 		}
 
-		public async Task<IActionResult> CreateCommentAsync(int productId, RequestCommentDto requestCommentDto)
+		[HttpPost]
+		[Route("[controller]/[action]/{productId}")]
+
+		public async Task<IActionResult> CreateComment(int productId, RequestCommentDto requestCommentDto)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -101,10 +103,11 @@ namespace MuInMVC.Controllers
 				return RedirectToAction("ProductDetail", new { id = productId });
 			}
 		}
-
+		[HttpPost]
+		[Route("[controller]/[action]")]
 		public async Task<IActionResult> ChangeColor(int productId, int colorId)
 		{
-			var productSkuDto = _productSkuService.GetProductSkuDto(productId, colorId);
+			var productSkuDto = await _productSkuService.GetProductSkuDto(productId, colorId);
 			return Json(productSkuDto);
 		}
 	}

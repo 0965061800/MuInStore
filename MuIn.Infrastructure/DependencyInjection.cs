@@ -33,7 +33,7 @@ namespace MuIn.Infrastructure
 			services.AddAuthentication(options =>
 			{
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options =>
 			{
 				options.TokenValidationParameters = new TokenValidationParameters
@@ -59,22 +59,23 @@ namespace MuIn.Infrastructure
 			});
 
 
-			services.ConfigureApplicationCookie(options =>
-			{
-				options.Cookie.HttpOnly = true;
-				options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-				options.LoginPath = "/Identity/Account/Login";
-				options.LogoutPath = "/Identity/Account/Logout";
-				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-			});
+			//services.ConfigureApplicationCookie(options =>
+			//{
+			//	options.Cookie.HttpOnly = true;
+			//	options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+			//	options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+			//	options.LoginPath = "/Identity/Account/Login";
+			//	options.LogoutPath = "/Identity/Account/Logout";
+			//	options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+			//});
 
 
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<IBrandRepository, BrandRepository>();
 			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddScoped<IColorRepository, ColorRepository>();
-
+			services.AddScoped<IOrderRepository, OrderRepository>();
+			services.AddScoped<IProductSkuRepository, ProductSkuRepository>();
 
 			return services;
 
