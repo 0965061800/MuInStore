@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MuInMVC.Interfaces;
 using MuInMVC.Models;
-using MuInShared.Helpers;
+using MuInShared.Product;
 using System.Diagnostics;
 
 namespace MuInMVC.Controllers
@@ -20,13 +20,14 @@ namespace MuInMVC.Controllers
 		public IActionResult Index()
 		{
 			ViewBag.UserName = HttpContext.Session.GetString("UserName");
-			ProductQueryObject query = new ProductQueryObject
-			{
-				BestSeller = true
-			};
-			var productList = _productService.GetProducts(query);
-			if (productList == null) return View("Error");
-			ViewData["BestSellerProducts"] = productList.Data.Take(3).ToList();
+			SortFilterPageOptionRequest query = new();
+			query.FilterBy = ProductFilterBy.NoFilter;
+			query.OrderByOptions = OrderProductByOptions.SimpleOrder;
+			query.PageNum = 1;
+			query.PageSize = 3;
+			var productListCombine = _productService.GetProducts(query);
+			if (productListCombine == null) return View("Error");
+			ViewData["BestSellerProducts"] = productListCombine.ProductList.Take(3).ToList();
 			return View();
 		}
 

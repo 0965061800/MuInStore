@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MuIn.Domain\MuIn.Domain.csproj" />
     <ProjectReference Include="..\MuInShared\MuInShared.csproj" />
     <ProjectReference Include="..\MuInStoreAPI\MuInStoreAPI.csproj" />
   </ItemGroup>

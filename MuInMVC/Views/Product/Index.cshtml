@@ -1,8 +1,11 @@
-﻿@using MuInShared.Category
-@model IEnumerable<MuInShared.Product.ProductDto>
+﻿@using MuInMVC.ModelViews
+@using MuInShared.Category
+@using MuInShared.Product
+@model ProductListCombine
 
 @{
     ViewData["Title"] = "MuIn Product";
+	string baseUrl = "https://localhost:7137/files/products";
 }
 
 <partial name="_Header2" />
@@ -30,7 +33,7 @@
 						<li class="active" data-filter="*">All</li>
 						@foreach (var cat in (List<CategoryDto>)ViewData["Categories"])
 						{
-							<li><a asp-controller="Category" asp-action="Index" asp-route-id="@cat.CatId">@cat.CatName</a></li>
+							<li><a asp-controller="Product" asp-action="Index" asp-route-catId="@cat.CatId">@cat.CatName</a></li>
 						}
 					</ul>
 				</div>
@@ -42,12 +45,12 @@
 			</div>
 			<div class="col-10 product-lists">
 				<div class="row">
-					@foreach (var product in Model)
+					@foreach (var product in Model.ProductList)
 					{
 						<div class="col-lg-4 col-md-6 text-center strawberry">
 							<div class="single-product-item">
 								<div class="product-image w-100 mb-4" style="height:250px">
-									<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src=@(product.ProductImage != "" ? product.ProductImage : "/assets/img/products/product_default.jpg" ) style="width:100%; height:100%; object-fit:cover" alt="@product.ImageName"></a>
+									<a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@product.ProductId"><img src=@(product.ProductImage != "" ? baseUrl + "/" + product.ProductImage : "/assets/img/products/product_default.jpg" ) style="width:100%; height:100%; object-fit:cover" alt="@product.ImageName"></a>
 								</div>
 								<h3>@product.ProductName</h3>
 								<p class="product-price"> @product.ProductPrice.ToString("#,##0") VNĐ </p>
@@ -64,9 +67,16 @@
 				<div class="pagination-wrap">
 					<ul>
 						<li><a href="#">Prev</a></li>
-						<li><a href="#">1</a></li>
-						<li><a class="active" href="#">2</a></li>
-						<li><a href="#">3</a></li>
+						@for(int i = 1; i<=Model.SortFilterPageData.NumPages; i++)
+						{
+							@if(i == Model.SortFilterPageData.PageNum)
+							{
+								<li><a class="active" href="?PageNum=@i&PageSize= 3&OrderByOptions=@Model.SortFilterPageData.OrderByOptions&FilterBy=@Model.SortFilterPageData.FilterBy&FilterValue=@Model.SortFilterPageData.FilterValue">@i</a></li>
+							} else
+							{
+								<li><a href="?PageNum=@i&PageSize= 3&OrderByOptions=@Model.SortFilterPageData.OrderByOptions&FilterBy=@Model.SortFilterPageData.FilterBy&FilterValue=@Model.SortFilterPageData.FilterValue">@i</a></li>
+							}
+						}
 						<li><a href="#">Next</a></li>
 					</ul>
 				</div>
@@ -74,3 +84,4 @@
 		</div>
 	</div>
 </div>
+

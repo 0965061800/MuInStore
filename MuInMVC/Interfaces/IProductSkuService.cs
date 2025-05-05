@@ -4,6 +4,6 @@ namespace MuInMVC.Interfaces
 {
 	public interface IProductSkuService
 	{
-		ProductSkuDto? GetProductSkuDto(int productId, int colorId);
+		Task<ProductSkuDto?> GetProductSkuDto(int productId, int colorId);
 	}
 }

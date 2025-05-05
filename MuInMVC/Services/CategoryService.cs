@@ -14,10 +14,10 @@ namespace MuInMVC.Services
 			_httpClient.BaseAddress = baseAddress;
 		}
 
-		public List<CategoryDto>? GetCategories()
+		public List<CategoryDto>? GetCategories(int id)
 		{
 			List<CategoryDto> categoryList = new();
-			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category").Result;
+			HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Category/" + id).Result;
 
 			if (response.IsSuccessStatusCode)
 			{

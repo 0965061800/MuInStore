@@ -15,14 +15,14 @@ namespace MuInMVC.Services
 			_httpClient.BaseAddress = baseAddress;
 		}
 
-		public ProductSkuDto? GetProductSkuDto(int productId, int colorId)
+		public async Task<ProductSkuDto?> GetProductSkuDto(int productId, int colorId)
 		{
 
 			ProductSkuDto productSkuDto = new ProductSkuDto();
 			var data = new
 			{
-				ProductId = productId,
-				ColorId = colorId,
+				productId = productId,
+				colorId = colorId,
 			};
 
 			var queryString = QueryStringHelper.ToQueryString(data);

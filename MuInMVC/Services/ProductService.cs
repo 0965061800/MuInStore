@@ -1,7 +1,5 @@
 ﻿using MuInMVC.Helpers;
 using MuInMVC.Interfaces;
-using MuInShared;
-using MuInShared.Helpers;
 using MuInShared.Product;
 using Newtonsoft.Json;
 
@@ -17,9 +15,8 @@ namespace MuInMVC.Services
 			_httpClient.BaseAddress = baseAddress;
 		}
 
-		public ReponseModel<List<ProductDto>>? GetProducts(ProductQueryObject query)
+		public ProductListCombine? GetProducts(SortFilterPageOptionRequest query)
 		{
-			ReponseModel<List<ProductDto>> productList = new();
 
 			var queryString = QueryStringHelper.ToQueryString(query);
 
@@ -28,7 +25,7 @@ namespace MuInMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				string data = response.Content.ReadAsStringAsync().Result;
-				productList = JsonConvert.DeserializeObject<ReponseModel<List<ProductDto>>>(data);
+				var productList = JsonConvert.DeserializeObject<ProductListCombine>(data);
 				return productList;
 			}
 			return null;
